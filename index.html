@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-page="gitpub">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Gitpub — GitHub Repo Manager & Website Builder</title>
+  <meta name="description" content="Gitpub: Manage your GitHub repositories and build AI-powered GitHub Pages websites with an emoji-action toolbar." />
+  <meta name="keywords" content="github, repository manager, github pages, PWA, AI website builder, gitpub" />
+  <meta name="author" content="Gitpub" />
+
+  <!-- PWA / Android -->
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Gitpub" />
+  <meta name="application-name" content="Gitpub" />
+  <meta name="theme-color" content="#6366f1" />
+  <meta name="msapplication-TileColor" content="#6366f1" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www-infinity4.github.io/Gitpub/" />
+  <meta property="og:title" content="Gitpub — GitHub Repo Manager & Website Builder" />
+  <meta property="og:description" content="Manage your GitHub repositories and build AI-powered GitHub Pages websites." />
+  <meta property="og:image" content="https://www-infinity4.github.io/Gitpub/icons/icon.svg" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Gitpub — GitHub Repo Manager" />
+  <meta name="twitter:description" content="AI-powered GitHub Pages website builder with emoji action toolbar." />
+
+  <link rel="canonical" href="https://www-infinity4.github.io/Gitpub/" />
+  <link rel="manifest" href="/Gitpub/manifest.json" />
+  <link rel="icon" href="/Gitpub/icons/icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/Gitpub/icons/icon.svg" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="/Gitpub/css/styles.css" />
+</head>
+<body>
+
+<!-- ── Background gradient ─────────────────────────────────── -->
+<div class="page-bg" aria-hidden="true"></div>
+
+<!-- ── Install Banner ──────────────────────────────────────── -->
+<div id="installBanner" class="install-banner" role="banner" aria-live="polite">
+  <span>📲 Install Gitpub on your device for the best experience!</span>
+  <div class="install-actions">
+    <button id="installBtn" class="btn-install">Install</button>
+    <button id="dismissBanner" class="btn-dismiss" aria-label="Dismiss">✕</button>
+  </div>
+</div>
+
+<!-- ── Nav Overlay & Drawer ────────────────────────────────── -->
+<div id="navOverlay" class="nav-overlay" role="dialog" aria-modal="true" aria-label="Navigation menu">
+  <nav id="navDrawer" class="nav-drawer">
+    <div class="nav-drawer-header">
+      <h2>Menu</h2>
+      <button id="navClose" class="nav-close-btn" aria-label="Close menu">✕</button>
+    </div>
+    <div class="nav-links">
+      <a href="/Gitpub/index.html" class="nav-link active">
+        <span class="nav-link-icon">🐙</span> Gitpub
+      </a>
+      <a href="/Gitpub/gitpal.html" class="nav-link">
+        <span class="nav-link-icon">🤖</span> Gitpal
+      </a>
+      <div class="nav-divider"></div>
+      <a href="#settings" class="nav-link" id="navSettings">
+        <span class="nav-link-icon">⚙️</span> Settings
+      </a>
+      <a href="#about" class="nav-link" id="navAbout">
+        <span class="nav-link-icon">ℹ️</span> About
+      </a>
+      <div class="nav-divider"></div>
+      <a href="https://github.com" target="_blank" rel="noopener" class="nav-link">
+        <span class="nav-link-icon">🐱</span> GitHub.com ↗
+      </a>
+    </div>
+    <div class="nav-footer">
+      Gitpub v1.0 · <a href="https://www-infinity4.github.io/Gitpub/" target="_blank">www-infinity4.github.io/Gitpub</a>
+    </div>
+  </nav>
+</div>
+
+<!-- ── Header ──────────────────────────────────────────────── -->
+<header class="site-header" role="banner">
+  <a href="/Gitpub/" class="header-logo" aria-label="Gitpub Home">
+    <div class="logo-icon" aria-hidden="true">🐙</div>
+    <span>Gitpub</span>
+  </a>
+  <div class="header-actions">
+    <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme">
+      <span id="themeIcon">☀️</span>
+    </button>
+    <button id="hamburgerBtn" class="hamburger-btn" aria-label="Open navigation menu" aria-expanded="false">☰</button>
+  </div>
+</header>
+
+<!-- ── Main ────────────────────────────────────────────────── -->
+<main class="main-content" id="main">
+
+  <!-- Hero -->
+  <section class="hero" aria-labelledby="heroTitle">
+    <h1 class="hero-title" id="heroTitle">Your GitHub Repos,<br>Supercharged</h1>
+    <p class="hero-subtitle">
+      Gitpub transforms your GitHub repositories into polished websites with an AI-powered emoji action toolbar. Build, style, and deploy — all from one place.
+    </p>
+    <div class="hero-badges">
+      <span class="badge accent">🚀 GitHub Pages Builder</span>
+      <span class="badge">🤖 AI-Assisted</span>
+      <span class="badge">📲 PWA</span>
+      <span class="badge">✨ 56 Tools</span>
+    </div>
+  </section>
+
+  <!-- ── Auth Section ──────────────────────────────────────── -->
+  <section id="authSection" class="hidden" aria-labelledby="authTitle">
+    <div class="auth-card">
+      <h2 id="authTitle">🔑 Connect to GitHub</h2>
+      <p>Enter your GitHub username and a Personal Access Token (PAT) to load your repositories. Your token is stored locally and never sent anywhere except GitHub's API.</p>
+
+      <form id="authForm" novalidate>
+        <div class="form-group">
+          <label class="form-label" for="usernameInput">GitHub Username</label>
+          <input
+            type="text"
+            id="usernameInput"
+            class="form-input"
+            placeholder="e.g. octocat"
+            autocomplete="username"
+            autocapitalize="none"
+            spellcheck="false"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="tokenInput">Personal Access Token</label>
+          <input
+            type="password"
+            id="tokenInput"
+            class="form-input"
+            placeholder="ghp_xxxxxxxxxxxxxxxxxxxx"
+            autocomplete="current-password"
+            spellcheck="false"
+            required
+          />
+          <p class="form-hint">
+            Create a token at
+            <a href="https://github.com/settings/tokens/new?scopes=repo,read:user" target="_blank" rel="noopener">
+              github.com/settings/tokens
+            </a>
+            with <code>repo</code> (read + write, needed to commit site changes)
+            and <code>read:user</code> scopes. Use <code>public_repo</code> instead
+            of <code>repo</code> if you only manage public repositories.
+          </p>
+        </div>
+        <button type="submit" class="btn btn-primary">
+          🚀 Connect &amp; Load Repos
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ── App Section ───────────────────────────────────────── -->
+  <section id="appSection" class="hidden" aria-label="Repository Dashboard">
+
+    <!-- Stats Bar -->
+    <div class="stats-bar" role="region" aria-label="Repository statistics">
+      <div class="stat-chip">
+        <div class="stat-num" id="statTotal">—</div>
+        <div class="stat-label">Repos</div>
+      </div>
+      <div class="stat-chip">
+        <div class="stat-num" id="statStars">—</div>
+        <div class="stat-label">Total Stars</div>
+      </div>
+      <div class="stat-chip">
+        <div class="stat-num" id="statPages">—</div>
+        <div class="stat-label">Pages Sites</div>
+      </div>
+      <div class="stat-chip">
+        <div class="stat-num" id="statLangs">—</div>
+        <div class="stat-label">Languages</div>
+      </div>
+    </div>
+
+    <!-- Section bar -->
+    <div class="section-bar">
+      <div>
+        <div class="section-title">📚 Repositories</div>
+        <div class="section-meta">Signed in as <strong id="usernameDisplay"></strong> · <button id="signOutBtn" class="btn btn-danger btn-sm">Sign Out</button></div>
+      </div>
+      <input
+        type="search"
+        id="searchRepos"
+        class="search-input"
+        placeholder="🔍 Search repos…"
+        aria-label="Search repositories"
+      />
+    </div>
+
+    <!-- Loading Spinner -->
+    <div id="loadingSpinner" class="loading-container hidden" role="status" aria-live="polite">
+      <div class="spinner" aria-hidden="true"></div>
+      <p class="loading-text">Loading repositories…</p>
+    </div>
+
+    <!-- Repo Grid -->
+    <div id="repoGrid" class="repo-grid" role="list" aria-label="Repository cards"></div>
+
+  </section><!-- /appSection -->
+
+</main>
+
+<!-- ── Modal Overlay ───────────────────────────────────────── -->
+<div id="modalOverlay" class="modal-overlay" role="dialog" aria-modal="true" aria-label="Tool modal">
+  <div id="modalBox" class="modal-box"></div>
+</div>
+
+<!-- ── Toast Container ─────────────────────────────────────── -->
+<div id="toastContainer" class="toast-container" aria-live="assertive" aria-atomic="true"></div>
+
+<!-- ── Footer ──────────────────────────────────────────────── -->
+<footer class="site-footer" role="contentinfo">
+  <p>
+    <strong>Gitpub</strong> — GitHub Repo Manager &amp; Website Builder ·
+    <a href="/Gitpub/gitpal.html">Gitpal AI</a> ·
+    <a href="https://github.com/www-infinity4/Gitpub" target="_blank" rel="noopener">Source</a> ·
+    Built with ❤️ for the open web
+  </p>
+</footer>
+
+<script src="/Gitpub/js/app.js"></script>
+</body>
+</html>
