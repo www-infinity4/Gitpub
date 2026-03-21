@@ -44,7 +44,9 @@ self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
 
-  // Skip non-GET and browser-extension requests
+  // Skip non-GET requests (POST/PUT/DELETE) — these must not be cached or
+  // intercepted, so they fall through to the browser's default network handling.
+  // Skip chrome-extension: requests which are unrelated to this app's scope.
   if (request.method !== 'GET' || url.protocol === 'chrome-extension:') return;
 
   // Network-first for GitHub API calls

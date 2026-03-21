@@ -7,10 +7,12 @@
 'use strict';
 
 /* ── XOR obfuscation for token storage ───────────────────── */
-// NOTE: This is lightweight obfuscation only (not encryption).
-// The token is protected by the browser's same-origin policy and HTTPS.
-// For stronger security, users should generate short-lived tokens with
-// minimal scopes and revoke them after use.
+// NOTE: This is lightweight obfuscation only (NOT encryption).
+// The XOR key is intentionally simple — anyone with access to the browser's
+// localStorage or DevTools can trivially decode the stored token.
+// SECURITY GUIDANCE: always use short-lived fine-grained PATs with the
+// minimum required scopes (public_repo or repo) and revoke them promptly.
+// The token is also protected by HTTPS and the browser same-origin policy.
 const XOR_KEY = 42;
 const xorStr = (str) =>
   str.split('').map(c => String.fromCharCode(c.charCodeAt(0) ^ XOR_KEY)).join('');
@@ -502,6 +504,7 @@ class GitpubApp {
     this._bindNav();
     this._bindInstallBanner();
     this._bindThemeToggle();
+    this._bindToolCards();
     this._registerSW();
 
     this.checkAuth();
@@ -512,6 +515,15 @@ class GitpubApp {
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('/Gitpub/sw.js').catch(() => {});
     }
+  }
+
+  /* ── Gitpal tool cards (button[data-toast]) ─────────────── */
+  _bindToolCards() {
+    document.querySelectorAll('.tool-card[data-toast]').forEach(card => {
+      card.addEventListener('click', () => {
+        this.showToast(card.dataset.toast, 'info');
+      });
+    });
   }
 
   /* ── Theme ──────────────────────────────────────────────── */
@@ -640,7 +652,8 @@ class GitpubApp {
     try {
       const res = await fetch(
         // GitHub API returns up to 100 repos per page. Users with >100 repos will only
-        // see their 100 most recently updated. Full pagination can be added if needed.
+      // see their 100 most recently updated. To support larger accounts, replace this
+      // with a paginated loop: fetch page=1, 2, ... until Link header has no "next".
         `https://api.github.com/users/${this.username}/repos?per_page=100&sort=updated`,
         { headers: { 'Authorization': `token ${this.token}`, 'Accept': 'application/vnd.github.v3+json' } }
       );
@@ -676,8 +689,10 @@ class GitpubApp {
       <div class="empty-icon">😬</div>
       <h3>Something went wrong</h3>
       <p>${msg}</p>
-      <button class="btn btn-secondary mt-3" onclick="app.loadRepos()">Retry</button>
+      <button class="btn btn-secondary mt-3" id="retryBtn">Retry</button>
     </div>`;
+    const retryBtn = document.getElementById('retryBtn');
+    if (retryBtn) retryBtn.addEventListener('click', () => this.loadRepos());
   }
 
   _updateStats() {
