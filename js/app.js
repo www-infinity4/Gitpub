@@ -7,6 +7,10 @@
 'use strict';
 
 /* ── XOR obfuscation for token storage ───────────────────── */
+// NOTE: This is lightweight obfuscation only (not encryption).
+// The token is protected by the browser's same-origin policy and HTTPS.
+// For stronger security, users should generate short-lived tokens with
+// minimal scopes and revoke them after use.
 const XOR_KEY = 42;
 const xorStr = (str) =>
   str.split('').map(c => String.fromCharCode(c.charCodeAt(0) ^ XOR_KEY)).join('');
@@ -610,8 +614,8 @@ class GitpubApp {
   _showApp() {
     document.getElementById('authSection')?.classList.add('hidden');
     document.getElementById('appSection')?.classList.remove('hidden');
-    document.getElementById('usernameDisplay')?.textContent && 
-      (document.getElementById('usernameDisplay').textContent = this.username);
+    const userDisplay = document.getElementById('usernameDisplay');
+    if (userDisplay) userDisplay.textContent = this.username;
     this.loadRepos();
 
     // Settings: sign-out
@@ -635,6 +639,8 @@ class GitpubApp {
     this._showLoading(true);
     try {
       const res = await fetch(
+        // GitHub API returns up to 100 repos per page. Users with >100 repos will only
+        // see their 100 most recently updated. Full pagination can be added if needed.
         `https://api.github.com/users/${this.username}/repos?per_page=100&sort=updated`,
         { headers: { 'Authorization': `token ${this.token}`, 'Accept': 'application/vnd.github.v3+json' } }
       );

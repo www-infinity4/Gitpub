@@ -74,7 +74,8 @@ async function cacheFirst(request) {
       cache.put(request, response.clone());
     }
     return response;
-  } catch {
+  } catch (err) {
+    console.warn('[Gitpub SW] Cache fetch failed:', err);
     // Return offline fallback for navigation requests
     if (request.mode === 'navigate') {
       return caches.match('/Gitpub/index.html');
@@ -92,7 +93,8 @@ async function networkFirst(request) {
       cache.put(request, response.clone());
     }
     return response;
-  } catch {
+  } catch (err) {
+    console.warn('[Gitpub SW] Network fetch failed:', err);
     const cached = await caches.match(request);
     return cached || new Response(
       JSON.stringify({ error: 'offline', message: 'No network and no cache available' }),
