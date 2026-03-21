@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-page="gitpal">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Gitpal — Your AI Repository Companion</title>
+  <meta name="description" content="Gitpal: Your AI-powered companion for managing and growing GitHub repositories. Chat with AI, use tools, and supercharge your GitHub Pages." />
+  <meta name="keywords" content="github AI assistant, repository companion, gitpal, gitpub, github pages, AI chat" />
+  <meta name="author" content="Gitpub" />
+
+  <!-- PWA / Android -->
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Gitpal" />
+  <meta name="application-name" content="Gitpal" />
+  <meta name="theme-color" content="#a855f7" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www-infinity4.github.io/Gitpub/gitpal.html" />
+  <meta property="og:title" content="Gitpal — Your AI Repository Companion" />
+  <meta property="og:description" content="AI-powered assistant for GitHub repository management and GitHub Pages building." />
+  <meta property="og:image" content="https://www-infinity4.github.io/Gitpub/icons/icon.svg" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Gitpal — AI Repository Companion" />
+  <meta name="twitter:description" content="Chat with AI, manage repos, and build GitHub Pages — powered by Gitpal." />
+
+  <link rel="canonical" href="https://www-infinity4.github.io/Gitpub/gitpal.html" />
+  <link rel="manifest" href="/Gitpub/manifest.json" />
+  <link rel="icon" href="/Gitpub/icons/icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/Gitpub/icons/icon.svg" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="/Gitpub/css/styles.css" />
+
+  <!-- Gitpal accent overrides -->
+  <style>
+    :root {
+      --page-accent:  var(--gitpal-accent);
+      --page-accent2: var(--gitpal-accent2);
+    }
+    /* Gitpal-specific colour overrides */
+    .btn-primary {
+      background: linear-gradient(135deg, var(--gitpal-accent), var(--gitpal-accent2));
+      box-shadow: 0 4px 16px rgba(168,85,247,.35);
+    }
+    .btn-primary:hover { box-shadow: 0 6px 24px rgba(168,85,247,.45); }
+    .btn-open { background: rgba(168,85,247,.12); color: #c084fc; border-color: rgba(168,85,247,.3); }
+    .btn-open:hover { background: rgba(168,85,247,.22); }
+    .form-input:focus, .select-input:focus, .textarea-input:focus {
+      border-color: var(--gitpal-accent);
+      box-shadow: 0 0 0 3px rgba(168,85,247,.2);
+    }
+    .search-input:focus { border-color: var(--gitpal-accent); }
+    .repo-card:hover { border-color: rgba(168,85,247,.4); box-shadow: 0 12px 40px rgba(168,85,247,.22); }
+    .card-title { color: #c084fc; }
+    .spinner { border-top-color: var(--gitpal-accent); }
+    .modal-desc { border-left-color: var(--gitpal-accent); }
+    .modal-repo-tag { background: rgba(168,85,247,.15); color: #c084fc; border-color: rgba(168,85,247,.3); }
+    .radio-chip:has(input:checked) { background: rgba(168,85,247,.15); border-color: var(--gitpal-accent); color: #c084fc; }
+    .color-swatch.active { box-shadow: 0 0 0 2px var(--gitpal-accent); }
+    #statTotal .stat-num, #statStars .stat-num { color: #c084fc; }
+    .toggle-thumb { }
+    input:checked + .toggle-thumb { background: var(--gitpal-accent); }
+    .nav-link.active { color: var(--gitpal-accent); border-left-color: var(--gitpal-accent); background: rgba(168,85,247,.08); }
+    .header-logo .logo-icon { background: linear-gradient(135deg, var(--gitpal-accent), var(--gitpal-accent2)); }
+  </style>
+</head>
+<body class="gitpal">
+
+<!-- ── Background gradient ─────────────────────────────────── -->
+<div class="page-bg gitpal" aria-hidden="true"></div>
+
+<!-- ── Install Banner ──────────────────────────────────────── -->
+<div id="installBanner" class="install-banner" role="banner" aria-live="polite"
+     style="background: linear-gradient(90deg, var(--gitpal-accent), var(--gitpal-accent2))">
+  <span>📲 Install Gitpal on your device for the best experience!</span>
+  <div class="install-actions">
+    <button id="installBtn" class="btn-install">Install</button>
+    <button id="dismissBanner" class="btn-dismiss" aria-label="Dismiss">✕</button>
+  </div>
+</div>
+
+<!-- ── Nav Overlay & Drawer ────────────────────────────────── -->
+<div id="navOverlay" class="nav-overlay" role="dialog" aria-modal="true" aria-label="Navigation menu">
+  <nav id="navDrawer" class="nav-drawer">
+    <div class="nav-drawer-header">
+      <h2>Menu</h2>
+      <button id="navClose" class="nav-close-btn" aria-label="Close menu">✕</button>
+    </div>
+    <div class="nav-links">
+      <a href="/Gitpub/index.html" class="nav-link">
+        <span class="nav-link-icon">🐙</span> Gitpub
+      </a>
+      <a href="/Gitpub/gitpal.html" class="nav-link active">
+        <span class="nav-link-icon">🤖</span> Gitpal
+      </a>
+      <div class="nav-divider"></div>
+      <a href="#settings" class="nav-link" id="navSettings">
+        <span class="nav-link-icon">⚙️</span> Settings
+      </a>
+      <a href="#about" class="nav-link" id="navAbout">
+        <span class="nav-link-icon">ℹ️</span> About
+      </a>
+      <div class="nav-divider"></div>
+      <a href="https://github.com" target="_blank" rel="noopener" class="nav-link">
+        <span class="nav-link-icon">🐱</span> GitHub.com ↗
+      </a>
+    </div>
+    <div class="nav-footer">
+      Gitpal v1.0 · <a href="https://www-infinity4.github.io/Gitpub/gitpal.html" target="_blank">www-infinity4.github.io/Gitpub</a>
+    </div>
+  </nav>
+</div>
+
+<!-- ── Header ──────────────────────────────────────────────── -->
+<header class="site-header gitpal" role="banner">
+  <a href="/Gitpub/gitpal.html" class="header-logo" aria-label="Gitpal Home">
+    <div class="logo-icon" aria-hidden="true">🤖</div>
+    <span>Gitpal</span>
+  </a>
+  <div class="header-actions">
+    <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme">
+      <span id="themeIcon">☀️</span>
+    </button>
+    <button id="hamburgerBtn" class="hamburger-btn" aria-label="Open navigation menu">☰</button>
+  </div>
+</header>
+
+<!-- ── Main ────────────────────────────────────────────────── -->
+<main class="main-content" id="main">
+
+  <!-- Hero -->
+  <section class="hero gitpal" aria-labelledby="gitpalTitle">
+    <h1 class="hero-title" id="gitpalTitle">Gitpal<br>Your AI Repo Companion</h1>
+    <p class="hero-subtitle">
+      Chat with your AI assistant, explore smart tools, and manage your GitHub Pages sites — all in one purple-powered companion app.
+    </p>
+    <div class="hero-badges">
+      <span class="badge accent">🤖 AI Chat</span>
+      <span class="badge">🔮 Smart Tools</span>
+      <span class="badge">📲 PWA</span>
+      <span class="badge">🌐 Repo Manager</span>
+    </div>
+  </section>
+
+  <!-- ── Auth Section ──────────────────────────────────────── -->
+  <section id="authSection" class="hidden" aria-labelledby="authTitle">
+    <div class="auth-card">
+      <h2 id="authTitle">🔑 Connect Gitpal to GitHub</h2>
+      <p>Enter your GitHub username and Personal Access Token to unlock all Gitpal features. Your credentials are stored locally and only used with GitHub's API.</p>
+
+      <form id="authForm" novalidate>
+        <div class="form-group">
+          <label class="form-label" for="usernameInput">GitHub Username</label>
+          <input
+            type="text"
+            id="usernameInput"
+            class="form-input"
+            placeholder="e.g. octocat"
+            autocomplete="username"
+            autocapitalize="none"
+            spellcheck="false"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="tokenInput">Personal Access Token</label>
+          <input
+            type="password"
+            id="tokenInput"
+            class="form-input"
+            placeholder="ghp_xxxxxxxxxxxxxxxxxxxx"
+            autocomplete="current-password"
+            spellcheck="false"
+            required
+          />
+          <p class="form-hint">
+            Needs <code>repo</code> and <code>read:user</code> scopes.
+            <a href="https://github.com/settings/tokens/new?scopes=repo,read:user" target="_blank" rel="noopener">Create token ↗</a>
+          </p>
+        </div>
+        <button type="submit" class="btn btn-primary">
+          🤖 Connect Gitpal
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ── App Section ───────────────────────────────────────── -->
+  <section id="appSection" class="hidden" aria-label="Gitpal Dashboard">
+
+    <!-- Stats Bar -->
+    <div class="stats-bar" role="region" aria-label="Repository statistics">
+      <div class="stat-chip">
+        <div class="stat-num" id="statTotal">—</div>
+        <div class="stat-label">Repos</div>
+      </div>
+      <div class="stat-chip">
+        <div class="stat-num" id="statStars">—</div>
+        <div class="stat-label">Total Stars</div>
+      </div>
+      <div class="stat-chip">
+        <div class="stat-num" id="statPages">—</div>
+        <div class="stat-label">Pages Sites</div>
+      </div>
+      <div class="stat-chip">
+        <div class="stat-num" id="statLangs">—</div>
+        <div class="stat-label">Languages</div>
+      </div>
+    </div>
+
+    <!-- ── Gitpal AI Chat Widget ────────────────────────────── -->
+    <section aria-labelledby="chatTitle" style="margin-bottom:32px">
+      <div class="section-bar">
+        <div>
+          <div class="section-title" id="chatTitle">🤖 Gitpal AI Chat</div>
+          <div class="section-meta">Ask anything about your repos, GitHub Pages, or PWAs</div>
+        </div>
+      </div>
+
+      <div class="chat-widget">
+        <div class="chat-header">
+          <div class="chat-avatar">🤖</div>
+          <div class="chat-header-info">
+            <h3>Gitpal Assistant</h3>
+            <span><span class="chat-online-dot"></span>Online · Always ready to help</span>
+          </div>
+        </div>
+
+        <div class="chat-messages" id="chatMessages" role="log" aria-live="polite" aria-label="Chat messages">
+          <!-- Greeting message -->
+          <div class="chat-msg bot">
+            <div class="chat-bot-avatar">🤖</div>
+            <div class="chat-bubble">
+              👋 Hey there! I'm <strong>Gitpal</strong>, your AI repository companion. I can help you with GitHub Pages, PWA setup, repo management, and more. What would you like to work on today?
+            </div>
+          </div>
+          <div class="chat-msg bot">
+            <div class="chat-bot-avatar">🤖</div>
+            <div class="chat-bubble">
+              💡 <em>Tip:</em> Use the emoji toolbar on each repo card below to access 56 AI-powered tools — from styling your site to minting tokens and connecting repos into networks!
+            </div>
+          </div>
+        </div>
+
+        <div class="chat-suggestions">
+          <button class="suggestion-chip">How do I enable GitHub Pages?</button>
+          <button class="suggestion-chip">What's a PWA?</button>
+          <button class="suggestion-chip">How do I improve my repo's SEO?</button>
+          <button class="suggestion-chip">Connect repos together</button>
+          <button class="suggestion-chip">What is Soul Intent?</button>
+        </div>
+
+        <div class="chat-input-area">
+          <input
+            type="text"
+            id="chatInput"
+            class="chat-input"
+            placeholder="Ask Gitpal anything…"
+            aria-label="Chat message input"
+            autocomplete="off"
+          />
+          <button id="chatSendBtn" class="chat-send-btn" aria-label="Send message">➤</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Gitpal Tools Grid ─────────────────────────────────── -->
+    <section aria-labelledby="toolsTitle" style="margin-bottom:32px">
+      <div class="section-bar">
+        <div class="section-title" id="toolsTitle">🔮 Gitpal Tools</div>
+      </div>
+      <div class="tools-grid">
+        <div class="tool-card" role="button" tabindex="0" onclick="app.showToast('AI Analyser — coming soon!', 'info')">
+          <div class="tool-icon">🧠</div>
+          <h4>AI Analyser</h4>
+          <p>Deep-scan your repos for improvement opportunities</p>
+        </div>
+        <div class="tool-card" role="button" tabindex="0" onclick="app.showToast('Trend Radar — coming soon!', 'info')">
+          <div class="tool-icon">📡</div>
+          <h4>Trend Radar</h4>
+          <p>Discover trending topics to add to your sites</p>
+        </div>
+        <div class="tool-card" role="button" tabindex="0" onclick="app.showToast('SEO Doctor — coming soon!', 'info')">
+          <div class="tool-icon">🩺</div>
+          <h4>SEO Doctor</h4>
+          <p>AI-powered SEO audit and prescription</p>
+        </div>
+        <div class="tool-card" role="button" tabindex="0" onclick="app.showToast('Network Map — coming soon!', 'info')">
+          <div class="tool-icon">🕸️</div>
+          <h4>Network Map</h4>
+          <p>Visualise your connected repo network</p>
+        </div>
+        <div class="tool-card" role="button" tabindex="0" onclick="app.showToast('Content Calendar — coming soon!', 'info')">
+          <div class="tool-icon">📅</div>
+          <h4>Content Calendar</h4>
+          <p>Schedule posts and deployments</p>
+        </div>
+        <div class="tool-card" role="button" tabindex="0" onclick="app.showToast('Token Studio — coming soon!', 'info')">
+          <div class="tool-icon">🪙</div>
+          <h4>Token Studio</h4>
+          <p>Design and mint digital tokens</p>
+        </div>
+        <div class="tool-card" role="button" tabindex="0" onclick="app.showToast('Revenue Dashboard — coming soon!', 'info')">
+          <div class="tool-icon">💹</div>
+          <h4>Revenue Dashboard</h4>
+          <p>Track monetisation across all your sites</p>
+        </div>
+        <div class="tool-card" role="button" tabindex="0" onclick="app.showToast('Deploy Manager — coming soon!', 'info')">
+          <div class="tool-icon">🚀</div>
+          <h4>Deploy Manager</h4>
+          <p>Monitor and trigger GitHub Pages deployments</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Repo Section ──────────────────────────────────────── -->
+    <div class="section-bar">
+      <div>
+        <div class="section-title">📚 Your Repositories</div>
+        <div class="section-meta">Signed in as <strong id="usernameDisplay"></strong> · <button id="signOutBtn" class="btn btn-danger btn-sm">Sign Out</button></div>
+      </div>
+      <input
+        type="search"
+        id="searchRepos"
+        class="search-input"
+        placeholder="🔍 Search repos…"
+        aria-label="Search repositories"
+      />
+    </div>
+
+    <!-- Loading Spinner -->
+    <div id="loadingSpinner" class="loading-container hidden" role="status" aria-live="polite">
+      <div class="spinner" aria-hidden="true"></div>
+      <p class="loading-text">Loading repositories…</p>
+    </div>
+
+    <!-- Repo Grid -->
+    <div id="repoGrid" class="repo-grid" role="list" aria-label="Repository cards"></div>
+
+  </section><!-- /appSection -->
+
+</main>
+
+<!-- ── Modal Overlay ───────────────────────────────────────── -->
+<div id="modalOverlay" class="modal-overlay" role="dialog" aria-modal="true" aria-label="Tool modal">
+  <div id="modalBox" class="modal-box"></div>
+</div>
+
+<!-- ── Toast Container ─────────────────────────────────────── -->
+<div id="toastContainer" class="toast-container" aria-live="assertive" aria-atomic="true"></div>
+
+<!-- ── Footer ──────────────────────────────────────────────── -->
+<footer class="site-footer" role="contentinfo">
+  <p>
+    <strong>Gitpal</strong> — AI Repository Companion ·
+    <a href="/Gitpub/index.html">Gitpub</a> ·
+    <a href="https://github.com/www-infinity4/Gitpub" target="_blank" rel="noopener">Source</a> ·
+    Part of the Gitpub ecosystem ❤️
+  </p>
+</footer>
+
+<script src="/Gitpub/js/app.js"></script>
+</body>
+</html>
