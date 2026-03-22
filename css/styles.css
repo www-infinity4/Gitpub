@@ -12,6 +12,7 @@
   --gitpub-accent2:  #818cf8;
   --gitpal-accent:   #a855f7;
   --gitpal-accent2:  #ec4899;
+  --accent-yellow:   #fbbf24;
 
   /* Dark theme (default) */
   --bg-primary:    #0d1117;
@@ -461,9 +462,9 @@ img, svg { display: block; max-width: 100%; }
 }
 
 .emoji-row {
-  display: flex; gap: 2px;
+  display: flex; gap: 4px;
   overflow-x: auto; scrollbar-width: none;
-  padding-bottom: 8px;
+  padding-bottom: 10px;
   -webkit-overflow-scrolling: touch;
 }
 .emoji-row::-webkit-scrollbar { display: none; }
@@ -471,22 +472,37 @@ img, svg { display: block; max-width: 100%; }
 .emoji-row-label {
   font-size: 9px; font-weight: 700; letter-spacing: .8px;
   text-transform: uppercase; color: var(--text-muted);
-  padding: 4px 0 2px;
+  padding: 6px 0 3px;
 }
 
 .emoji-btn {
   background: none; border: 1px solid transparent;
-  border-radius: var(--radius-sm); padding: 5px 6px;
-  font-size: 17px; line-height: 1; flex-shrink: 0;
+  border-radius: var(--radius-sm); padding: 8px 5px 6px;
+  flex-shrink: 0; min-width: 56px;
   transition: all .15s ease;
   position: relative;
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
 }
 .emoji-btn:hover {
   background: var(--bg-secondary);
   border-color: var(--border);
-  transform: scale(1.15);
+  transform: scale(1.1);
 }
 .emoji-btn:active { transform: scale(.95); }
+
+.emoji-icon {
+  font-size: 26px; line-height: 1;
+  display: block;
+}
+
+.emoji-label {
+  font-size: 8px; font-weight: 700;
+  color: var(--accent-yellow);
+  text-transform: uppercase; letter-spacing: .4px;
+  line-height: 1; white-space: nowrap;
+  display: block;
+}
+
 .emoji-btn[title]:hover::after {
   content: attr(title);
   position: absolute; bottom: calc(100% + 6px); left: 50%;
