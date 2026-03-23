@@ -467,6 +467,11 @@ class GitpubApp {
       });
     });
 
+    // Bind Enable Pages buttons
+    grid.querySelectorAll('.btn-enable-pages').forEach(btn => {
+      btn.addEventListener('click', () => this._enablePages(btn.dataset.repo, btn));
+    });
+
     // Colour swatches in cards are handled by modal
   }
 
@@ -506,7 +511,9 @@ class GitpubApp {
         <span class="meta-item" title="Last updated">🕐 ${updated}</span>
       </div>
       <div class="card-actions">
-        <a href="${pagesUrl}" target="_blank" rel="noopener" class="btn-open">🌐 Open Site</a>
+        ${repo.has_pages
+          ? `<a href="${pagesUrl}" target="_blank" rel="noopener" class="btn-open">🌐 Open Site</a>`
+          : `<button class="btn btn-success btn-sm btn-enable-pages" data-repo="${repo.name}">🚀 Enable Pages</button>`}
         <a href="${repo.html_url}" target="_blank" rel="noopener" class="btn btn-secondary btn-sm">GitHub ↗</a>
       </div>
       <div class="emoji-toolbar">${toolbarHTML}</div>
@@ -738,6 +745,57 @@ class GitpubApp {
       throw new Error(e.message || `GitHub ${res.status}`);
     }
     return res.json();
+  }
+
+  /* ── Enable GitHub Pages ───────────────────────────────── */
+  async _enablePages(repoName, btn) {
+    btn.disabled = true;
+    btn.textContent = '⏳ Enabling…';
+    const repo = this.repos.find(r => r.name === repoName);
+    const branch = repo?.default_branch || 'main';
+    try {
+      const res = await fetch(
+        `https://api.github.com/repos/${this.username}/${repoName}/pages`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `token ${this.token}`,
+            Accept: 'application/vnd.github.v3+json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ source: { branch, path: '/' } }),
+        }
+      );
+      if (!res.ok) {
+        const e = await res.json().catch(() => ({}));
+        throw new Error(e.message || `GitHub ${res.status}`);
+      }
+      // Mark the repo as having pages enabled and re-render the card
+      if (repo) repo.has_pages = true;
+      const filteredRepo = this.filteredRepos.find(r => r.name === repoName);
+      if (filteredRepo) filteredRepo.has_pages = true;
+      const card = document.querySelector(`.repo-card[data-repo="${repoName}"]`);
+      if (card) {
+        const actions = card.querySelector('.card-actions');
+        if (actions) {
+          const pagesUrl = repoName === `${this.username}.github.io`
+            ? `https://${this.username}.github.io/`
+            : `https://${this.username}.github.io/${repoName}/`;
+          actions.querySelector('.btn-enable-pages')?.replaceWith(
+            Object.assign(document.createElement('a'), {
+              href: pagesUrl, target: '_blank', rel: 'noopener',
+              className: 'btn-open', textContent: '🌐 Open Site'
+            })
+          );
+        }
+      }
+      this._updateStats();
+      this.showToast(`🚀 GitHub Pages enabled for ${repoName}!`, 'success');
+    } catch (err) {
+      this.showToast(`❌ ${err.message}`, 'error');
+      btn.disabled = false;
+      btn.textContent = '🚀 Enable Pages';
+    }
   }
 
   /* ── Per-tool commit handlers ───────────────────────────── */
