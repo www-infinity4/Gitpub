@@ -29,19 +29,86 @@ const LANG_COLORS = {
 };
 
 /* ── Emoji toolbar rows definition ──────────────────────────
-   Each entry: [emoji, id, title]
+   Each entry: [emoji, id, title, shortLabel]
    ─────────────────────────────────────────────────────────── */
 const EMOJI_ROWS = [
   {
     label: 'Page Tools',
     buttons: [
-      ['📍','moveUpDown',  'Move Up/Down', 'Move'],
-      ['📎','addPages',    'Add Pages',    'Pages'],
-      ['🔧','quickFix',    'Quick Fix',    'Fix'],
-      ['🪣','styles',      'Styles',       'Styles'],
-      ['🧲','pullMemory',  'Pull Memory',  'Pull'],
-      ['🟦','dropContent', 'Drop Content', 'Drop'],
-      ['🧰','toolbox',     'Toolbox',      'Tools'],
+      ['📍','moveUpDown',   'Move Up/Down',    'Move'],
+      ['📎','addPages',     'Add Pages',        'Pages'],
+      ['🔧','quickFix',     'Quick Fix',        'Fix'],
+      ['🪣','styles',       'Styles',           'Styles'],
+      ['🧲','pullMemory',   'Pull Memory',      'Pull'],
+      ['🟦','dropContent',  'Drop Content',     'Drop'],
+      ['🧰','toolbox',      'Toolbox',          'Tools'],
+      ['🔬','microscope',   'Fine Adjustments', 'Detail'],
+      ['🥽','deepFix',      'Deep Fix',         'DeepFix'],
+      ['🔥','editRemove',   'Edit / Remove',    'Edit'],
+    ]
+  },
+  {
+    label: 'Build & Expand',
+    buttons: [
+      ['🍄','doubleContent', 'Double Content',     'Double'],
+      ['⭐','updateContent', 'Update Content',     'Update'],
+      ['🟩','aiEngineer',    'AI Engineering',     'AI Eng'],
+      ['♠️','researchWriter','Research Writer',    'Research'],
+      ['🟨','extractData',   'Extract Data',       'Extract'],
+      ['💎','facetsIntent',  'Facets Intent',      'Facets'],
+      ['⬜','unifier',       'Unifier',            'Unify'],
+      ['⚪','cloneRepo',     'Clone / New Repo',   'Clone'],
+      ['🟥','hamburgerMenu', 'Hamburger & Nav',    'Nav'],
+      ['✨','connectRepos',  'Connect Repos',      'Connect'],
+    ]
+  },
+  {
+    label: 'Media & Entertainment',
+    buttons: [
+      ['🎷','mediaGallery',  'Radio / TV / Gallery','Media'],
+      ['😎','visualizer',    'Visualizer',          'Visual'],
+      ['🎨','artStudio',     'Art Studio',          'Art'],
+      ['🎹','addMusic',      'Add Music',           'Music'],
+      ['🎙️','voiceMic',     'Voice / Mic',         'Voice'],
+      ['🥁','advertising',   'Advertising',         'Ads'],
+      ['🎛️','modulator',    'Modulator / Sync',    'Mod'],
+      ['🎵','pianoSignIn',   'Piano Sign-In',       'SignIn'],
+    ]
+  },
+  {
+    label: 'Commerce & Finance',
+    buttons: [
+      ['💲','payments',      'PayPal / Payments',  'Pay'],
+      ['💰','banking',       'Banking / Sync',     'Bank'],
+      ['🛒','shoppingCart',  'Shopping Cart',      'Cart'],
+      ['♦️','merchant',      'Merchant Options',   'Merch'],
+      ['🟡','tokenWalker',   'Token Walker / Mint','Token'],
+      ['🎟️','ticketBooth',  'Ticket Booth',       'Tickets'],
+    ]
+  },
+  {
+    label: 'Machine & System',
+    buttons: [
+      ['♣️','machinePart',   'Machine Part',       'Machine'],
+      ['🛸','triodeRepos',   'Triode Repos',       'Triode'],
+      ['🧩','puzzleBuilder', 'Puzzle Builder',     'Puzzle'],
+      ['💍','beltPulley',    'Belt-Pulley Ring',   'Ring'],
+      ['👑','soulIntent',    'Soul Intent / Crown','Soul'],
+      ['📡','signalEmitter', 'Signal Emitter',     'Signal'],
+      ['🔌','powerEmitter',  'Power Emitter',      'Power'],
+      ['🧫','petriDish',     'Petri Dish / Test',  'Petri'],
+      ['🕹️','navigation',   'Page Navigation',    'Nav2'],
+    ]
+  },
+  {
+    label: 'Security & Data',
+    buttons: [
+      ['🧱','encryptData',   'Encrypt User Data',  'Encrypt'],
+      ['♥️','loveChurch',    'Love / Church',      'Love'],
+      ['⚖️','metricsScale',  'Metrics & Value',    'Metrics'],
+      ['💊','bugDoctor',     'Bug Doctor',         'Doctor'],
+      ['📀','addRepoFiles',  'Add Repo Files',     'Files'],
+      ['🖥️','screenDisplay','Screen Display',     'Screen'],
     ]
   },
 ];
@@ -191,6 +258,858 @@ const MODAL_CONTENT = {
         <label class="checkbox-item"><input type="checkbox" id="toolOG"> 🗺️ Add Open Graph meta tags to index.html</label>
       </div>`,
     preview: '// Each checked item creates/updates a file\n// Commit: "🧰 Toolbox — generate web files"'
+  },
+
+  /* ── Page Tools row 2 ─────────────────────────────────── */
+  microscope: {
+    title: 'Fine Adjustments',
+    emoji: '🔬',
+    desc: 'Microscopic tweaks to your page — update title, description, keywords, author, and canonical URL in index.html.',
+    form: `
+      <p class="modal-section-title">Page Title</p>
+      <input class="form-input mb-2" id="microTitle" placeholder="My Awesome Site" />
+      <p class="modal-section-title">Meta Description (≤160 chars)</p>
+      <input class="form-input mb-2" id="microDesc" placeholder="A brief description of the page…" maxlength="160"/>
+      <p class="modal-section-title">Keywords (comma-separated)</p>
+      <input class="form-input mb-2" id="microKeywords" placeholder="github, portfolio, web" />
+      <p class="modal-section-title">Author</p>
+      <input class="form-input mb-2" id="microAuthor" placeholder="Your Name" />`,
+    preview: '// Fetches index.html\n// Updates <title> and meta tags\n// Commit: "🔬 Fine adjustments — meta update"'
+  },
+
+  deepFix: {
+    title: 'Deep Fix',
+    emoji: '🥽',
+    desc: 'Deeper auto-repairs: add or fix DOCTYPE, lang attribute, missing </body>, broken relative links, and inline style cleanup.',
+    form: `
+      <p class="modal-section-title">Fixes to Apply</p>
+      <div class="checkbox-group">
+        <label class="checkbox-item"><input type="checkbox" id="dfDoctype" checked> Fix / add DOCTYPE</label>
+        <label class="checkbox-item"><input type="checkbox" id="dfLang" checked> Add lang="en" to &lt;html&gt;</label>
+        <label class="checkbox-item"><input type="checkbox" id="dfBody" checked> Ensure &lt;/body&gt;&lt;/html&gt; closing tags</label>
+        <label class="checkbox-item"><input type="checkbox" id="dfLinks" checked> Make relative links consistent (./)</label>
+        <label class="checkbox-item"><input type="checkbox" id="dfBrokenImg" checked> Replace broken img src="" placeholders</label>
+      </div>`,
+    preview: '// Deep scan index.html\n// Apply selected repairs\n// Commit: "🥽 Deep fix — structural repair"'
+  },
+
+  editRemove: {
+    title: 'Edit / Remove',
+    emoji: '🔥',
+    desc: 'Find and remove (or comment out) a section, element, or block of text from your index.html.',
+    form: `
+      <p class="modal-section-title">Action</p>
+      <div class="radio-group">
+        <label class="radio-chip"><input type="radio" name="erAction" value="remove" checked> 🗑️ Remove</label>
+        <label class="radio-chip"><input type="radio" name="erAction" value="comment"> 💬 Comment Out</label>
+      </div>
+      <p class="modal-section-title">Find Text / ID / Class (exact)</p>
+      <input class="form-input mb-2" id="erSearch" placeholder='e.g. id="hero" or class="sidebar"' />
+      <p class="modal-section-title">Or Remove Section</p>
+      <select class="select-input" id="erSection">
+        <option value="">— choose a named section —</option>
+        <option>Hero / Banner</option>
+        <option>Footer</option>
+        <option>Sidebar</option>
+        <option>Navigation</option>
+        <option>Contact Form</option>
+        <option>Cookie Banner</option>
+      </select>`,
+    preview: '// Fetches index.html\n// Removes / comments target block\n// Commit: "🔥 Edit — remove [target]"'
+  },
+
+  /* ── Build & Expand row ─────────────────────────────────── */
+  doubleContent: {
+    title: 'Double Content',
+    emoji: '🍄',
+    desc: 'Doubles the content of your index.html — duplicates every major section so the page has twice as much material.',
+    form: `
+      <p class="modal-section-title">What to Double</p>
+      <div class="radio-group">
+        <label class="radio-chip"><input type="radio" name="dblTarget" value="sections" checked> 📑 All &lt;section&gt; blocks</label>
+        <label class="radio-chip"><input type="radio" name="dblTarget" value="articles"> 📄 All &lt;article&gt; blocks</label>
+        <label class="radio-chip"><input type="radio" name="dblTarget" value="cards"> 🃏 .card / .item divs</label>
+      </div>
+      <p class="modal-section-title">Separator</p>
+      <div class="radio-group">
+        <label class="radio-chip"><input type="radio" name="dblSep" value="hr" checked> ── HR Divider</label>
+        <label class="radio-chip"><input type="radio" name="dblSep" value="heading"> 📌 Add "More…" heading</label>
+        <label class="radio-chip"><input type="radio" name="dblSep" value="none"> No separator</label>
+      </div>`,
+    preview: '// Fetches index.html\n// Duplicates every matched element\n// Commit: "🍄 Double content — 2× sections"'
+  },
+
+  updateContent: {
+    title: 'Update Content',
+    emoji: '⭐',
+    desc: 'Stamps your page with a "Last Updated" timestamp, adds a fact-check notice, and refreshes Open Graph dates.',
+    form: `
+      <p class="modal-section-title">What to Update</p>
+      <div class="checkbox-group">
+        <label class="checkbox-item"><input type="checkbox" id="updTimestamp" checked> 🕐 Add/refresh "Last Updated" timestamp</label>
+        <label class="checkbox-item"><input type="checkbox" id="updOGDate" checked> 🗺️ Update og:updated_time meta tag</label>
+        <label class="checkbox-item"><input type="checkbox" id="updFactNotice" checked> ✅ Add fact-check / review notice banner</label>
+        <label class="checkbox-item"><input type="checkbox" id="updChangelog" checked> 📝 Append update to CHANGELOG.md</label>
+      </div>
+      <p class="modal-section-title">Update Note (optional)</p>
+      <input class="form-input" id="updNote" placeholder="e.g. Added new research section" />`,
+    preview: '// Fetches index.html & CHANGELOG.md\n// Stamps update info\n// Commit: "⭐ Update content — [date]"'
+  },
+
+  aiEngineer: {
+    title: 'AI Engineering',
+    emoji: '🟩',
+    desc: 'AI-suggested structural improvements: add a schema.org JSON-LD block, image alt improvements, heading hierarchy fixes, and accessibility landmarks.',
+    form: `
+      <p class="modal-section-title">Suggestions to Apply</p>
+      <div class="checkbox-group">
+        <label class="checkbox-item"><input type="checkbox" id="aiSchema" checked> 🧬 Inject schema.org JSON-LD (WebSite)</label>
+        <label class="checkbox-item"><input type="checkbox" id="aiLandmarks" checked> 🏛️ Add ARIA landmark roles</label>
+        <label class="checkbox-item"><input type="checkbox" id="aiHeadings" checked> 📐 Fix heading hierarchy (h1→h2→h3)</label>
+        <label class="checkbox-item"><input type="checkbox" id="aiSkipLink" checked> ⏭️ Add skip-to-content link</label>
+      </div>`,
+    preview: '// Fetches index.html\n// Applies AI structural improvements\n// Commit: "🟩 AI engineering pass"'
+  },
+
+  researchWriter: {
+    title: 'Research Writer',
+    emoji: '♠️',
+    desc: 'Generates a research article page and commits it. Each page links back to your main site and acts as a living document that can grow over time.',
+    form: `
+      <p class="modal-section-title">Topic / Title</p>
+      <input class="form-input mb-2" id="rwTitle" placeholder="e.g. The Future of Decentralised Finance" />
+      <p class="modal-section-title">Sections to Include</p>
+      <div class="checkbox-group">
+        <label class="checkbox-item"><input type="checkbox" id="rwAbstract" checked> 📋 Abstract</label>
+        <label class="checkbox-item"><input type="checkbox" id="rwIntro" checked> 📖 Introduction</label>
+        <label class="checkbox-item"><input type="checkbox" id="rwBody" checked> 📝 Main Body (3 sections)</label>
+        <label class="checkbox-item"><input type="checkbox" id="rwConclusion" checked> 🏁 Conclusion & References</label>
+        <label class="checkbox-item"><input type="checkbox" id="rwToken" checked> 🎫 Action Receipt Token footer</label>
+      </div>`,
+    preview: '// Creates research-{slug}.html\n// Structured article with token footer\n// Commit: "♠️ Research: {title}"'
+  },
+
+  extractData: {
+    title: 'Extract Data',
+    emoji: '🟨',
+    desc: 'Scans your page and extracts styles, cards, sections, scripts, or other reusable pieces into browser memory for reuse.',
+    form: `
+      <p class="modal-section-title">What to Extract</p>
+      <div class="checkbox-group">
+        <label class="checkbox-item"><input type="checkbox" id="extStyles" checked> 🎨 Inline &lt;style&gt; blocks</label>
+        <label class="checkbox-item"><input type="checkbox" id="extCards"> 🃏 Card / component divs</label>
+        <label class="checkbox-item"><input type="checkbox" id="extNav"> 🗂️ Navigation / header HTML</label>
+        <label class="checkbox-item"><input type="checkbox" id="extScripts"> ⚙️ &lt;script&gt; blocks</label>
+        <label class="checkbox-item"><input type="checkbox" id="extFooter"> 🔚 Footer HTML</label>
+      </div>
+      <p class="modal-section-title">Save to Memory Label</p>
+      <input class="form-input" id="extLabel" placeholder="e.g. my-nav-template" />`,
+    preview: '// Fetches index.html\n// Extracts selected elements\n// Stores in browser memory (gitpub_extract_*)'
+  },
+
+  facetsIntent: {
+    title: 'Facets Intent',
+    emoji: '💎',
+    desc: 'Reads a single repo\'s README and distils its core purpose into a one-page "Facet" document — the gem of intent for that repo.',
+    form: `
+      <p class="modal-section-title">Source</p>
+      <div class="radio-group">
+        <label class="radio-chip"><input type="radio" name="facSrc" value="readme" checked> 📝 README.md</label>
+        <label class="radio-chip"><input type="radio" name="facSrc" value="index"> 🌐 index.html</label>
+      </div>
+      <p class="modal-section-title">Output File</p>
+      <input class="form-input mb-2" id="facOutput" value="FACET.md" />
+      <p class="modal-section-title">Style</p>
+      <div class="radio-group">
+        <label class="radio-chip"><input type="radio" name="facStyle" value="markdown" checked> 📑 Markdown</label>
+        <label class="radio-chip"><input type="radio" name="facStyle" value="html"> 🌐 HTML page</label>
+      </div>`,
+    preview: '// Reads README.md\n// Extracts core intent\n// Commit: "💎 Facet — distil intent from {repo}"'
+  },
+
+  unifier: {
+    title: 'Unifier',
+    emoji: '⬜',
+    desc: 'Scans all your repos and pulls their core purpose (README first line) into one unified landing page on this repo.',
+    form: `
+      <p class="modal-section-title">Max Repos to Scan</p>
+      <select class="select-input mb-2" id="unifyMax">
+        <option value="10">10 repos</option>
+        <option value="20" selected>20 repos</option>
+        <option value="50">50 repos</option>
+        <option value="100">All repos</option>
+      </select>
+      <p class="modal-section-title">Output</p>
+      <div class="radio-group">
+        <label class="radio-chip"><input type="radio" name="unifyOut" value="unified.html" checked> 🌐 unified.html</label>
+        <label class="radio-chip"><input type="radio" name="unifyOut" value="index.html"> 🏠 index.html (replace)</label>
+      </div>
+      <p class="modal-section-title">Style</p>
+      <div class="radio-group">
+        <label class="radio-chip"><input type="radio" name="unifyStyle" value="cards" checked> 🃏 Cards grid</label>
+        <label class="radio-chip"><input type="radio" name="unifyStyle" value="list"> 📋 List</label>
+      </div>`,
+    preview: '// Fetches README for each repo\n// Builds unified landing page\n// Commit: "⬜ Unify — {n} repos into unified.html"'
+  },
+
+  cloneRepo: {
+    title: 'Clone / New Repo',
+    emoji: '⚪',
+    desc: 'Create a brand-new GitHub repository (blank or cloned from this one\'s files). Optionally import content from this repo.',
+    form: `
+      <p class="modal-section-title">New Repository Name</p>
+      <input class="form-input mb-2" id="cloneName" placeholder="my-new-project" />
+      <p class="modal-section-title">Description</p>
+      <input class="form-input mb-2" id="cloneDesc" placeholder="A new project" />
+      <p class="modal-section-title">Visibility</p>
+      <div class="radio-group">
+        <label class="radio-chip"><input type="radio" name="cloneVis" value="public" checked> 🌍 Public</label>
+        <label class="radio-chip"><input type="radio" name="cloneVis" value="private"> 🔒 Private</label>
+      </div>
+      <p class="modal-section-title">Seed Content</p>
+      <div class="checkbox-group">
+        <label class="checkbox-item"><input type="checkbox" id="cloneCopyIndex" checked> 📄 Copy index.html from this repo</label>
+        <label class="checkbox-item"><input type="checkbox" id="cloneCopyStyles"> 🎨 Copy theme.css / styles.css</label>
+        <label class="checkbox-item"><input type="checkbox" id="cloneAddReadme" checked> 📝 Add README.md</label>
+      </div>`,
+    preview: '// POST /user/repos → create repo\n// Optionally commit seed files\n// Opens new repo in new tab'
+  },
+
+  hamburgerMenu: {
+    title: 'Hamburger & Nav',
+    emoji: '🟥',
+    desc: 'Injects a hamburger menu and navigation bar into your index.html. Choose which repos to link and the menu style.',
+    form: `
+      <p class="modal-section-title">Menu Style</p>
+      <div class="radio-group">
+        <label class="radio-chip"><input type="radio" name="hambStyle" value="slide" checked> ↔️ Slide Drawer</label>
+        <label class="radio-chip"><input type="radio" name="hambStyle" value="dropdown"> ⬇️ Dropdown</label>
+        <label class="radio-chip"><input type="radio" name="hambStyle" value="fullscreen"> 🌐 Full Screen</label>
+      </div>
+      <p class="modal-section-title">Include Links</p>
+      <div class="checkbox-group">
+        <label class="checkbox-item"><input type="checkbox" id="hambHome" checked> 🏠 Home (index.html)</label>
+        <label class="checkbox-item"><input type="checkbox" id="hambAbout"> ℹ️ About</label>
+        <label class="checkbox-item"><input type="checkbox" id="hambContact"> 📬 Contact</label>
+        <label class="checkbox-item"><input type="checkbox" id="hambGitHub" checked> 🐱 Link to GitHub profile</label>
+      </div>`,
+    preview: '// Fetches index.html\n// Injects hamburger HTML + CSS\n// Commit: "🟥 Add hamburger nav"'
+  },
+
+  connectRepos: {
+    title: 'Connect Repos',
+    emoji: '✨',
+    desc: 'Adds cross-repo navigation links — a shared footer band that links all your GitHub Pages sites together.',
+    form: `
+      <p class="modal-section-title">Max Repos to Link</p>
+      <select class="select-input mb-2" id="connMax">
+        <option value="5">5</option>
+        <option value="10" selected>10</option>
+        <option value="20">20</option>
+      </select>
+      <p class="modal-section-title">Display as</p>
+      <div class="radio-group">
+        <label class="radio-chip"><input type="radio" name="connStyle" value="footer" checked> 🔚 Footer band</label>
+        <label class="radio-chip"><input type="radio" name="connStyle" value="header"> 🔝 Header nav strip</label>
+      </div>
+      <p class="modal-section-title">Include</p>
+      <div class="checkbox-group">
+        <label class="checkbox-item"><input type="checkbox" id="connPagesOnly" checked> 🌐 Pages-enabled repos only</label>
+        <label class="checkbox-item"><input type="checkbox" id="connStars"> ⭐ Show star count badges</label>
+      </div>`,
+    preview: '// Fetches index.html\n// Appends cross-repo nav band\n// Commit: "✨ Connect repos — add network nav"'
+  },
+
+  /* ── Media & Entertainment ───────────────────────────────── */
+  mediaGallery: {
+    title: 'Radio / TV / Gallery',
+    emoji: '🎷',
+    desc: 'Embed a media experience in your page — radio player, YouTube gallery, image carousel, or RSS feed reader.',
+    form: `
+      <p class="modal-section-title">Media Type</p>
+      <div class="radio-group">
+        <label class="radio-chip"><input type="radio" name="mediaType" value="radio" checked> 📻 Internet Radio</label>
+        <label class="radio-chip"><input type="radio" name="mediaType" value="youtube"> 📺 YouTube Gallery</label>
+        <label class="radio-chip"><input type="radio" name="mediaType" value="gallery"> 🖼️ Image Gallery</label>
+        <label class="radio-chip"><input type="radio" name="mediaType" value="rss"> 📡 RSS Feed</label>
+        <label class="radio-chip"><input type="radio" name="mediaType" value="games"> 🎮 Games Embed</label>
+      </div>
+      <p class="modal-section-title">Source / Channel URL (optional)</p>
+      <input class="form-input" id="mediaSrc" placeholder="https://…" />
+      <p class="modal-section-title">Scope</p>
+      <div class="radio-group">
+        <label class="radio-chip"><input type="radio" name="mediaScope" value="worldwide" checked> 🌍 Worldwide</label>
+        <label class="radio-chip"><input type="radio" name="mediaScope" value="local"> 🏠 Local / Regional</label>
+        <label class="radio-chip"><input type="radio" name="mediaScope" value="custom"> ⚙️ Custom channel list</label>
+      </div>`,
+    preview: '// Generates media embed HTML block\n// Appends to index.html\n// Commit: "🎷 Add media — [type]"'
+  },
+
+  visualizer: {
+    title: 'Visualizer',
+    emoji: '😎',
+    desc: 'Embeds an audio/data visualizer canvas into your page. Choose a style and it merges seamlessly with your content.',
+    form: `
+      <p class="modal-section-title">Visualizer Style</p>
+      <div class="radio-group">
+        <label class="radio-chip"><input type="radio" name="vizStyle" value="bars" checked> 📊 Frequency Bars</label>
+        <label class="radio-chip"><input type="radio" name="vizStyle" value="waveform"> 🌊 Waveform</label>
+        <label class="radio-chip"><input type="radio" name="vizStyle" value="particles"> ✨ Particles</label>
+        <label class="radio-chip"><input type="radio" name="vizStyle" value="circular"> ⭕ Circular Rings</label>
+        <label class="radio-chip"><input type="radio" name="vizStyle" value="matrix"> 🟩 Matrix Rain</label>
+      </div>
+      <p class="modal-section-title">Placement</p>
+      <div class="radio-group">
+        <label class="radio-chip"><input type="radio" name="vizPlace" value="hero" checked> 🖼️ Hero background</label>
+        <label class="radio-chip"><input type="radio" name="vizPlace" value="section"> 📐 New section</label>
+        <label class="radio-chip"><input type="radio" name="vizPlace" value="footer"> 🔚 Footer accent</label>
+      </div>`,
+    preview: '// Generates canvas + JS visualizer code\n// Appends to index.html\n// Commit: "😎 Add visualizer — [style]"'
+  },
+
+  artStudio: {
+    title: 'Art Studio',
+    emoji: '🎨',
+    desc: 'Embed a drawing pad in your page — quick sketch, full color picker, or 3D canvas. Every drawing mints an action token.',
+    form: `
+      <p class="modal-section-title">Studio Level</p>
+      <div class="radio-group">
+        <label class="radio-chip"><input type="radio" name="artLevel" value="quick" checked> ✏️ Quick Draw Pad</label>
+        <label class="radio-chip"><input type="radio" name="artLevel" value="color"> 🎨 Color Studio</label>
+        <label class="radio-chip"><input type="radio" name="artLevel" value="3d"> 🧊 3D Canvas (WebGL)</label>
+      </div>
+      <p class="modal-section-title">Options</p>
+      <div class="checkbox-group">
+        <label class="checkbox-item"><input type="checkbox" id="artToken" checked> 🎫 Mint receipt token on every save</label>
+        <label class="checkbox-item"><input type="checkbox" id="artDownload" checked> 💾 Add Download PNG button</label>
+        <label class="checkbox-item"><input type="checkbox" id="artShare"> 🔗 Add share link button</label>
+      </div>`,
+    preview: '// Generates canvas drawing pad HTML/JS\n// Embeds into index.html\n// Commit: "🎨 Art studio — [level] pad"'
+  },
+
+  addMusic: {
+    title: 'Add Music',
+    emoji: '🎹',
+    desc: 'Integrate a music player into your page — from simple audio tags to a full playlist with auto-generated track cards.',
+    form: `
+      <p class="modal-section-title">Player Type</p>
+      <div class="radio-group">
+        <label class="radio-chip"><input type="radio" name="musicType" value="simple" checked> ▶️ Simple Audio Tag</label>
+        <label class="radio-chip"><input type="radio" name="musicType" value="playlist"> 📀 Playlist Player</label>
+        <label class="radio-chip"><input type="radio" name="musicType" value="synth"> 🎵 In-page Synth</label>
+      </div>
+      <p class="modal-section-title">Audio Source (URL or repo path)</p>
+      <input class="form-input mb-2" id="musicSrc" placeholder="https://… or audio/track.mp3" />
+      <p class="modal-section-title">Options</p>
+      <div class="checkbox-group">
+        <label class="checkbox-item"><input type="checkbox" id="musicAutoplay"> 🔊 Autoplay (muted start)</label>
+        <label class="checkbox-item"><input type="checkbox" id="musicLoop" checked> 🔁 Loop</label>
+        <label class="checkbox-item"><input type="checkbox" id="musicVisual" checked> 😎 Include visualizer</label>
+      </div>`,
+    preview: '// Generates audio player HTML/JS\n// Appends to index.html\n// Commit: "🎹 Add music player — [type]"'
+  },
+
+  voiceMic: {
+    title: 'Voice / Mic',
+    emoji: '🎙️',
+    desc: 'Add a voice recording widget or speech-to-text input to your page. Recordings stored as base64 or uploaded to the repo.',
+    form: `
+      <p class="modal-section-title">Feature</p>
+      <div class="radio-group">
+        <label class="radio-chip"><input type="radio" name="voiceFeature" value="record" checked> 🎙️ Record & Playback</label>
+        <label class="radio-chip"><input type="radio" name="voiceFeature" value="stt"> 📝 Speech-to-Text Input</label>
+        <label class="radio-chip"><input type="radio" name="voiceFeature" value="tts"> 🔊 Text-to-Speech Reader</label>
+      </div>
+      <p class="modal-section-title">Storage</p>
+      <div class="radio-group">
+        <label class="radio-chip"><input type="radio" name="voiceStorage" value="local" checked> 💾 Browser localStorage</label>
+        <label class="radio-chip"><input type="radio" name="voiceStorage" value="repo"> 📂 Commit to repo /audio/</label>
+      </div>`,
+    preview: '// Generates voice widget HTML/JS\n// Appends to index.html\n// Commit: "🎙️ Add voice widget — [feature]"'
+  },
+
+  advertising: {
+    title: 'Advertising',
+    emoji: '🥁',
+    desc: 'Add an advertising zone to your page — banner, interstitial placeholder, or sponsor card. Supports AdSense slot IDs.',
+    form: `
+      <p class="modal-section-title">Ad Type</p>
+      <div class="radio-group">
+        <label class="radio-chip"><input type="radio" name="adType" value="banner" checked> 🏞️ Banner (728×90)</label>
+        <label class="radio-chip"><input type="radio" name="adType" value="square"> ▪️ Square (300×250)</label>
+        <label class="radio-chip"><input type="radio" name="adType" value="sponsor"> 🤝 Sponsor Card</label>
+        <label class="radio-chip"><input type="radio" name="adType" value="adsense"> 💰 Google AdSense</label>
+      </div>
+      <p class="modal-section-title">Placement</p>
+      <div class="radio-group">
+        <label class="radio-chip"><input type="radio" name="adPlace" value="top" checked> 🔝 Top of page</label>
+        <label class="radio-chip"><input type="radio" name="adPlace" value="mid"> 🔀 Mid-page</label>
+        <label class="radio-chip"><input type="radio" name="adPlace" value="footer"> 🔚 Before footer</label>
+      </div>
+      <p class="modal-section-title">AdSense Publisher ID (if applicable)</p>
+      <input class="form-input" id="adSenseId" placeholder="pub-0000000000000000" />`,
+    preview: '// Generates ad zone HTML\n// Inserts into index.html at chosen placement\n// Commit: "🥁 Add advertising zone — [type]"'
+  },
+
+  modulator: {
+    title: 'Modulator / Sync',
+    emoji: '🎛️',
+    desc: 'Synchronise effects across pages — add smooth scroll, CSS transitions, entrance animations, and page-load effects.',
+    form: `
+      <p class="modal-section-title">Effects</p>
+      <div class="checkbox-group">
+        <label class="checkbox-item"><input type="checkbox" id="modScroll" checked> 🖱️ Smooth scroll</label>
+        <label class="checkbox-item"><input type="checkbox" id="modFadeIn" checked> 🌅 Fade-in on scroll (IntersectionObserver)</label>
+        <label class="checkbox-item"><input type="checkbox" id="modParallax"> 🌄 Parallax hero</label>
+        <label class="checkbox-item"><input type="checkbox" id="modPageTrans"> ✈️ Page transition fade</label>
+        <label class="checkbox-item"><input type="checkbox" id="modTyping"> ⌨️ Typing effect on headings</label>
+      </div>`,
+    preview: '// Injects effect CSS + JS into index.html\n// Commit: "🎛️ Modulator — add page effects"'
+  },
+
+  pianoSignIn: {
+    title: 'Piano Sign-In',
+    emoji: '🎵',
+    desc: 'Embed an 8-note piano sign-in widget. Users play a melody as their passphrase — stored encrypted in repo files via GitHub secrets.',
+    form: `
+      <p class="modal-section-title">Security Level</p>
+      <div class="radio-group">
+        <label class="radio-chip"><input type="radio" name="pianoSec" value="70" checked> 🔓 70% match (relaxed)</label>
+        <label class="radio-chip"><input type="radio" name="pianoSec" value="85"> 🔒 85% match (standard)</label>
+        <label class="radio-chip"><input type="radio" name="pianoSec" value="95"> 🔐 95% match (strict)</label>
+        <label class="radio-chip"><input type="radio" name="pianoSec" value="quantum"> ⚛️ Quantum (timing + pitch)</label>
+      </div>
+      <p class="modal-section-title">Storage</p>
+      <div class="checkbox-group">
+        <label class="checkbox-item"><input type="checkbox" id="pianoEncrypt" checked> 🧱 Encrypt stored melody (XOR + hash)</label>
+        <label class="checkbox-item"><input type="checkbox" id="pianoGhSecret" checked> 🔑 Use GitHub secret GHP_SECRET for key</label>
+        <label class="checkbox-item"><input type="checkbox" id="pianoBotLog" checked> 📋 Log sign-in events to sign-ins.json</label>
+      </div>`,
+    preview: '// Creates piano-signin.html + piano-signin.js\n// Commit: "🎵 Piano sign-in — [security] level"'
+  },
+
+  /* ── Commerce & Finance ─────────────────────────────────── */
+  payments: {
+    title: 'PayPal / Payments',
+    emoji: '💲',
+    desc: 'Add a PayPal donation/checkout button, token mint, or token exchange card. The card is AI-aware and adapts to your page context.',
+    form: `
+      <p class="modal-section-title">Payment Type</p>
+      <div class="radio-group">
+        <label class="radio-chip"><input type="radio" name="payType" value="donate" checked> 🎁 PayPal Donate</label>
+        <label class="radio-chip"><input type="radio" name="payType" value="checkout"> 🛒 PayPal Checkout</label>
+        <label class="radio-chip"><input type="radio" name="payType" value="mint"> 🪙 Token Mint</label>
+        <label class="radio-chip"><input type="radio" name="payType" value="exchange"> 🔄 Token Exchange</label>
+      </div>
+      <p class="modal-section-title">PayPal Business ID / Email</p>
+      <input class="form-input mb-2" id="paypalId" placeholder="business@example.com or paypal-id" />
+      <p class="modal-section-title">Currency</p>
+      <select class="select-input" id="payCurrency">
+        <option value="USD">USD $</option>
+        <option value="EUR">EUR €</option>
+        <option value="GBP">GBP £</option>
+        <option value="BTC">BTC ₿ (token)</option>
+      </select>`,
+    preview: '// Generates payment button/card HTML\n// Appends to index.html\n// Commit: "💲 Add payments — [type]"'
+  },
+
+  banking: {
+    title: 'Banking / Sync',
+    emoji: '💰',
+    desc: 'Unify banking and PayPal payments across all your repos — syncs payment endpoints and adds a shared finance footer.',
+    form: `
+      <p class="modal-section-title">Sync Target</p>
+      <div class="radio-group">
+        <label class="radio-chip"><input type="radio" name="bankTarget" value="this" checked> 📄 This repo only</label>
+        <label class="radio-chip"><input type="radio" name="bankTarget" value="all"> 🌐 All repos (batch)</label>
+      </div>
+      <p class="modal-section-title">Include</p>
+      <div class="checkbox-group">
+        <label class="checkbox-item"><input type="checkbox" id="bankPaypal" checked> 💲 PayPal button</label>
+        <label class="checkbox-item"><input type="checkbox" id="bankStripe"> 💳 Stripe placeholder</label>
+        <label class="checkbox-item"><input type="checkbox" id="bankToken" checked> 🪙 Token wallet link</label>
+        <label class="checkbox-item"><input type="checkbox" id="bankBalance"> ⚖️ Balance display widget</label>
+      </div>`,
+    preview: '// Generates shared finance footer HTML\n// Commits to index.html\n// Commit: "💰 Banking sync — [scope]"'
+  },
+
+  shoppingCart: {
+    title: 'Shopping Cart',
+    emoji: '🛒',
+    desc: 'Add a fully functional shopping cart with checkout flow to your page. Integrates with PayPal and token systems.',
+    form: `
+      <p class="modal-section-title">Cart Type</p>
+      <div class="radio-group">
+        <label class="radio-chip"><input type="radio" name="cartType" value="simple" checked> 🛒 Simple Cart (localStorage)</label>
+        <label class="radio-chip"><input type="radio" name="cartType" value="paypal"> 💲 PayPal Cart</label>
+        <label class="radio-chip"><input type="radio" name="cartType" value="token"> 🪙 Token Cart</label>
+      </div>
+      <p class="modal-section-title">Sample Products</p>
+      <div class="checkbox-group">
+        <label class="checkbox-item"><input type="checkbox" id="cartSample" checked> 📦 Add 3 sample product cards</label>
+        <label class="checkbox-item"><input type="checkbox" id="cartCheckout" checked> ✅ Add checkout / order summary page</label>
+      </div>`,
+    preview: '// Generates cart HTML + JS\n// Creates checkout.html if selected\n// Commit: "🛒 Add shopping cart — [type]"'
+  },
+
+  merchant: {
+    title: 'Merchant Options',
+    emoji: '♦️',
+    desc: 'Set up full merchant capabilities — product catalog, invoicing, digital downloads, and affiliate link tracking.',
+    form: `
+      <p class="modal-section-title">Merchant Features</p>
+      <div class="checkbox-group">
+        <label class="checkbox-item"><input type="checkbox" id="mchCatalog" checked> 📦 Product catalog page</label>
+        <label class="checkbox-item"><input type="checkbox" id="mchInvoice"> 🧾 Invoice generator</label>
+        <label class="checkbox-item"><input type="checkbox" id="mchDigital"> 💾 Digital download handler</label>
+        <label class="checkbox-item"><input type="checkbox" id="mchAffiliate"> 🔗 Affiliate link tracker</label>
+        <label class="checkbox-item"><input type="checkbox" id="mchDashboard"> 📊 Sales dashboard stub</label>
+      </div>`,
+    preview: '// Creates merchant pages (catalog, etc.)\n// Commits to repo\n// Commit: "♦️ Add merchant features"'
+  },
+
+  tokenWalker: {
+    title: 'Token Walker / Mint',
+    emoji: '🟡',
+    desc: 'Design, mint, and manage tokens. Quick launch or full manual input for token parameters, wallets, and exchange links.',
+    form: `
+      <p class="modal-section-title">Mode</p>
+      <div class="radio-group">
+        <label class="radio-chip"><input type="radio" name="tokenMode" value="quick" checked> ⚡ Quick Launch</label>
+        <label class="radio-chip"><input type="radio" name="tokenMode" value="manual"> 🔧 Manual Input</label>
+        <label class="radio-chip"><input type="radio" name="tokenMode" value="wallet"> 👛 Wallet Display</label>
+        <label class="radio-chip"><input type="radio" name="tokenMode" value="exchange"> 🔄 Exchange Link</label>
+      </div>
+      <p class="modal-section-title">Token Name</p>
+      <input class="form-input mb-2" id="tokenName" placeholder="MYTOKEN" />
+      <p class="modal-section-title">Supply</p>
+      <input class="form-input" id="tokenSupply" placeholder="1000000" type="number" min="1" />`,
+    preview: '// Generates token card HTML\n// Appends to index.html\n// Commit: "🟡 Token walker — [name]"'
+  },
+
+  ticketBooth: {
+    title: 'Ticket Booth',
+    emoji: '🎟️',
+    desc: 'Add an event ticketing system — date, duration, ticket types, and purchase flow via PayPal or tokens.',
+    form: `
+      <p class="modal-section-title">Event Name</p>
+      <input class="form-input mb-2" id="ticketEvent" placeholder="My Event" />
+      <p class="modal-section-title">Date</p>
+      <input class="form-input mb-2" id="ticketDate" type="date" />
+      <p class="modal-section-title">Ticket Types</p>
+      <div class="checkbox-group">
+        <label class="checkbox-item"><input type="checkbox" id="ticketFree" checked> 🎉 Free</label>
+        <label class="checkbox-item"><input type="checkbox" id="ticketVIP"> 👑 VIP</label>
+        <label class="checkbox-item"><input type="checkbox" id="ticketGeneral" checked> 🎫 General Admission</label>
+      </div>
+      <p class="modal-section-title">Payment</p>
+      <div class="radio-group">
+        <label class="radio-chip"><input type="radio" name="ticketPay" value="paypal" checked> 💲 PayPal</label>
+        <label class="radio-chip"><input type="radio" name="ticketPay" value="token"> 🪙 Token</label>
+        <label class="radio-chip"><input type="radio" name="ticketPay" value="free"> 🆓 Free</label>
+      </div>`,
+    preview: '// Generates tickets.html + booth card\n// Commits to repo\n// Commit: "🎟️ Ticket booth — [event]"'
+  },
+
+  /* ── Machine & System ───────────────────────────────────── */
+  machinePart: {
+    title: 'Machine Part',
+    emoji: '♣️',
+    desc: 'Assign a machine role to this repo in your digital transformer — reader, writer, scraper, memory, engine, or power.',
+    form: `
+      <p class="modal-section-title">Part Type</p>
+      <div class="radio-group">
+        <label class="radio-chip"><input type="radio" name="partType" value="reader" checked> 📖 Reader</label>
+        <label class="radio-chip"><input type="radio" name="partType" value="writer"> ✍️ Writer</label>
+        <label class="radio-chip"><input type="radio" name="partType" value="scraper"> 🕷️ Scraper</label>
+        <label class="radio-chip"><input type="radio" name="partType" value="memory"> 🧠 Memory</label>
+        <label class="radio-chip"><input type="radio" name="partType" value="engine"> ⚙️ Engine</label>
+        <label class="radio-chip"><input type="radio" name="partType" value="power"> ⚡ Power</label>
+        <label class="radio-chip"><input type="radio" name="partType" value="marketplace"> 🏪 Marketplace</label>
+      </div>
+      <p class="modal-section-title">Map File</p>
+      <div class="checkbox-group">
+        <label class="checkbox-item"><input type="checkbox" id="partMap" checked> 🗺️ Update MACHINE_MAP.md with this assignment</label>
+      </div>`,
+    preview: '// Writes MACHINE_PART.md to repo\n// Optionally updates MACHINE_MAP.md\n// Commit: "♣️ Assign machine part — [type]"'
+  },
+
+  triodeRepos: {
+    title: 'Triode Repos',
+    emoji: '🛸',
+    desc: 'Configure three repos as a metallic triode — one weak input, one strong amplifier, one control grid that governs them all.',
+    form: `
+      <p class="modal-section-title">Weak Repo (input signal)</p>
+      <select class="select-input mb-2" id="triodeWeak"><option value="">— select repo —</option></select>
+      <p class="modal-section-title">Strong Repo (amplifier)</p>
+      <select class="select-input mb-2" id="triodeStrong"><option value="">— select repo —</option></select>
+      <p class="modal-section-title">Control Grid (this repo acts as grid)</p>
+      <p class="modal-note">This repo will receive the TRIODE_MAP.md and acts as the control grid.</p>
+      <div class="checkbox-group">
+        <label class="checkbox-item"><input type="checkbox" id="triodeMap" checked> 🗺️ Write TRIODE_MAP.md to this repo</label>
+      </div>`,
+    preview: '// Writes TRIODE_MAP.md to this repo\n// Commit: "🛸 Triode setup — weak/strong/grid"'
+  },
+
+  puzzleBuilder: {
+    title: 'Puzzle Builder',
+    emoji: '🧩',
+    desc: 'Build a standard puzzle where each piece connects to a machine repo. When all pieces lock in, a new puzzle starts.',
+    form: `
+      <p class="modal-section-title">Puzzle Size</p>
+      <div class="radio-group">
+        <label class="radio-chip"><input type="radio" name="puzzleSize" value="9" checked> 3×3 (9 pieces)</label>
+        <label class="radio-chip"><input type="radio" name="puzzleSize" value="16"> 4×4 (16 pieces)</label>
+        <label class="radio-chip"><input type="radio" name="puzzleSize" value="25"> 5×5 (25 pieces)</label>
+      </div>
+      <p class="modal-section-title">Piece Labels</p>
+      <div class="radio-group">
+        <label class="radio-chip"><input type="radio" name="puzzleLabel" value="emoji" checked> 🎭 Emoji actions</label>
+        <label class="radio-chip"><input type="radio" name="puzzleLabel" value="repos"> 📂 Repo names</label>
+        <label class="radio-chip"><input type="radio" name="puzzleLabel" value="custom"> ✏️ Custom text</label>
+      </div>
+      <div class="checkbox-group">
+        <label class="checkbox-item"><input type="checkbox" id="puzzleAutoNext" checked> 🔄 Auto-start new puzzle on completion</label>
+      </div>`,
+    preview: '// Generates puzzle.html + puzzle.js\n// Commits to repo\n// Commit: "🧩 Puzzle builder — [size] pieces"'
+  },
+
+  beltPulley: {
+    title: 'Belt-Pulley Ring',
+    emoji: '💍',
+    desc: 'Import a pre-built belt-pulley engine ring system — a set of interlinked scripts that power automated repo workflows.',
+    form: `
+      <p class="modal-section-title">Ring System</p>
+      <div class="radio-group">
+        <label class="radio-chip"><input type="radio" name="ringType" value="basic" checked> ⚙️ Basic (3 scripts)</label>
+        <label class="radio-chip"><input type="radio" name="ringType" value="extended"> 🔗 Extended (7 scripts)</label>
+        <label class="radio-chip"><input type="radio" name="ringType" value="full"> 💫 Full Engine (12 scripts)</label>
+      </div>
+      <p class="modal-section-title">Target Folder</p>
+      <input class="form-input" id="ringFolder" value="engine/" />`,
+    preview: '// Creates engine/ folder with ring scripts\n// Commits all files\n// Commit: "💍 Belt-pulley ring — [type]"'
+  },
+
+  soulIntent: {
+    title: 'Soul Intent / Crown',
+    emoji: '👑',
+    desc: 'Reads each selected repo\'s README and feeds its core machine purpose into this page as choices to crown — building king-making websites.',
+    form: `
+      <p class="modal-section-title">Repos to Crown</p>
+      <select class="select-input mb-2" id="soulRepoSelect" multiple style="height:100px"></select>
+      <p class="form-hint">Hold Ctrl/Cmd to select multiple</p>
+      <p class="modal-section-title">Crown Style</p>
+      <div class="radio-group">
+        <label class="radio-chip"><input type="radio" name="soulStyle" value="banner" checked> 👑 Crown banner section</label>
+        <label class="radio-chip"><input type="radio" name="soulStyle" value="cards"> 🃏 Intent cards grid</label>
+        <label class="radio-chip"><input type="radio" name="soulStyle" value="hero"> 🦸 Hero takeover</label>
+      </div>`,
+    preview: '// Reads READMEs of selected repos\n// Injects crown intent section\n// Commit: "👑 Crown — soul intent from {n} repos"'
+  },
+
+  signalEmitter: {
+    title: 'Signal Emitter',
+    emoji: '📡',
+    desc: 'Emit and receive inter-page signals via custom HTML data attributes and BroadcastChannel API. Orbit an action to watch it.',
+    form: `
+      <p class="modal-section-title">Signal Type</p>
+      <div class="radio-group">
+        <label class="radio-chip"><input type="radio" name="sigType" value="broadcast" checked> 📢 BroadcastChannel</label>
+        <label class="radio-chip"><input type="radio" name="sigType" value="storage"> 💾 Storage Event</label>
+        <label class="radio-chip"><input type="radio" name="sigType" value="watcher"> 👁️ Page Watcher</label>
+      </div>
+      <p class="modal-section-title">Channel Name</p>
+      <input class="form-input mb-2" id="sigChannel" placeholder="gitpub-signal" />
+      <div class="checkbox-group">
+        <label class="checkbox-item"><input type="checkbox" id="sigLog" checked> 📋 Log signals to console</label>
+        <label class="checkbox-item"><input type="checkbox" id="sigOrbit"> 🔭 Add orbit watcher indicator</label>
+      </div>`,
+    preview: '// Injects signal emitter JS into index.html\n// Commit: "📡 Signal emitter — [type]"'
+  },
+
+  powerEmitter: {
+    title: 'Power Emitter',
+    emoji: '🔌',
+    desc: 'Recharge your site by script-run signal packets — a periodic ping that keeps the service worker fresh and fires analytics events.',
+    form: `
+      <p class="modal-section-title">Power Source</p>
+      <div class="radio-group">
+        <label class="radio-chip"><input type="radio" name="powSrc" value="interval" checked> ⏱️ Interval (every N min)</label>
+        <label class="radio-chip"><input type="radio" name="powSrc" value="focus"> 🔍 On page focus</label>
+        <label class="radio-chip"><input type="radio" name="powSrc" value="visibility"> 👁️ On visibility change</label>
+      </div>
+      <p class="modal-section-title">Interval (minutes)</p>
+      <input class="form-input mb-2" id="powInterval" type="number" value="5" min="1" max="60" />
+      <div class="checkbox-group">
+        <label class="checkbox-item"><input type="checkbox" id="powSW" checked> 🔄 Ping service worker</label>
+        <label class="checkbox-item"><input type="checkbox" id="powAnalytics"> 📊 Fire analytics beacon</label>
+        <label class="checkbox-item"><input type="checkbox" id="powToast"> 🍞 Show recharge toast</label>
+      </div>`,
+    preview: '// Injects power-emitter.js into index.html\n// Commit: "🔌 Power emitter — [source]"'
+  },
+
+  petriDish: {
+    title: 'Petri Dish / Test',
+    emoji: '🧫',
+    desc: 'Create an experimental sandbox repo branch where you can test changes without touching your live site.',
+    form: `
+      <p class="modal-section-title">Experiment Name</p>
+      <input class="form-input mb-2" id="petriName" placeholder="experiment-1" />
+      <p class="modal-section-title">Base On</p>
+      <div class="radio-group">
+        <label class="radio-chip"><input type="radio" name="petriBase" value="main" checked> 🌿 Main branch</label>
+        <label class="radio-chip"><input type="radio" name="petriBase" value="blank"> 📄 Blank slate</label>
+      </div>
+      <div class="checkbox-group">
+        <label class="checkbox-item"><input type="checkbox" id="petriReadme" checked> 📝 Add EXPERIMENT.md log file</label>
+        <label class="checkbox-item"><input type="checkbox" id="petriLabel"> 🏷️ Add "experiment" label to repo</label>
+      </div>`,
+    preview: '// Creates petri branch or new repo\n// Adds EXPERIMENT.md\n// Commit: "🧫 Petri dish — [name]"'
+  },
+
+  navigation: {
+    title: 'Page Navigation',
+    emoji: '🕹️',
+    desc: 'Build full page navigation — search box, hamburger menu, jump-to links, breadcrumbs, and page-to-page maneuvering.',
+    form: `
+      <p class="modal-section-title">Navigation Components</p>
+      <div class="checkbox-group">
+        <label class="checkbox-item"><input type="checkbox" id="navSearch" checked> 🔍 Search box</label>
+        <label class="checkbox-item"><input type="checkbox" id="navHamburger" checked> ☰ Hamburger menu</label>
+        <label class="checkbox-item"><input type="checkbox" id="navJump" checked> ⚓ Jump-to anchor links</label>
+        <label class="checkbox-item"><input type="checkbox" id="navBread"> 🍞 Breadcrumbs</label>
+        <label class="checkbox-item"><input type="checkbox" id="navBack"> ⬅️ Back-to-top button</label>
+        <label class="checkbox-item"><input type="checkbox" id="navPages"> 📄 Prev / Next page links</label>
+      </div>`,
+    preview: '// Injects navigation HTML + JS\n// Appends to index.html\n// Commit: "🕹️ Add page navigation"'
+  },
+
+  /* ── Security & Data ────────────────────────────────────── */
+  encryptData: {
+    title: 'Encrypt User Data',
+    emoji: '🧱',
+    desc: 'Encrypt user data stored in repo files by commit — wraps stored JSON files in XOR + SHA-256 envelope before committing.',
+    form: `
+      <p class="modal-section-title">Files to Encrypt</p>
+      <div class="checkbox-group">
+        <label class="checkbox-item"><input type="checkbox" id="encUsers" checked> 👤 users.json</label>
+        <label class="checkbox-item"><input type="checkbox" id="encSessions"> 🔑 sessions.json</label>
+        <label class="checkbox-item"><input type="checkbox" id="encSignIns"> 🎵 sign-ins.json</label>
+      </div>
+      <p class="modal-section-title">Encryption Method</p>
+      <div class="radio-group">
+        <label class="radio-chip"><input type="radio" name="encMethod" value="xor" checked> ⚙️ XOR + base64</label>
+        <label class="radio-chip"><input type="radio" name="encMethod" value="aes"> 🔐 AES-256 (SubtleCrypto)</label>
+      </div>
+      <p class="modal-section-title">Key Source</p>
+      <div class="radio-group">
+        <label class="radio-chip"><input type="radio" name="encKey" value="secret" checked> 🔑 GitHub secret GHP_SECRET</label>
+        <label class="radio-chip"><input type="radio" name="encKey" value="manual"> ✏️ Manual passphrase</label>
+      </div>
+      <input class="form-input mt-2" id="encPassphrase" placeholder="Passphrase (if manual)" type="password" />`,
+    preview: '// Fetches target JSON files\n// Encrypts contents\n// Commits encrypted versions\n// Commit: "🧱 Encrypt user data — [method]"'
+  },
+
+  loveChurch: {
+    title: 'Love / Church',
+    emoji: '♥️',
+    desc: 'Add a love or faith themed section — from "I love cats" hobby pages to Catholic churches. AI starts logical content choices.',
+    form: `
+      <p class="modal-section-title">Theme</p>
+      <div class="radio-group">
+        <label class="radio-chip"><input type="radio" name="loveTheme" value="pets" checked> 🐾 Pets / Animals</label>
+        <label class="radio-chip"><input type="radio" name="loveTheme" value="faith"> ✝️ Faith / Church</label>
+        <label class="radio-chip"><input type="radio" name="loveTheme" value="love"> ❤️ Love / Romance</label>
+        <label class="radio-chip"><input type="radio" name="loveTheme" value="community"> 🤝 Community</label>
+      </div>
+      <p class="modal-section-title">Focus</p>
+      <input class="form-input mb-2" id="loveFocus" placeholder='e.g. "I love dogs" or "Our Lady of Grace parish"' />
+      <p class="modal-section-title">Add</p>
+      <div class="checkbox-group">
+        <label class="checkbox-item"><input type="checkbox" id="loveBooks" checked> 📚 Related reading list</label>
+        <label class="checkbox-item"><input type="checkbox" id="loveCommunity" checked> 🤝 Community links section</label>
+        <label class="checkbox-item"><input type="checkbox" id="loveGallery"> 🖼️ Gallery placeholder</label>
+      </div>`,
+    preview: '// Generates themed section HTML\n// Appends to index.html\n// Commit: "♥️ Add love/church section — [theme]"'
+  },
+
+  metricsScale: {
+    title: 'Metrics & Value',
+    emoji: '⚖️',
+    desc: 'Scan site for metrics — word count, image count, link count, estimated reading time, SEO score, and value indicators.',
+    form: `
+      <p class="modal-section-title">Metrics to Scan</p>
+      <div class="checkbox-group">
+        <label class="checkbox-item"><input type="checkbox" id="metWords" checked> 📝 Word count</label>
+        <label class="checkbox-item"><input type="checkbox" id="metImages" checked> 🖼️ Image count &amp; alt coverage</label>
+        <label class="checkbox-item"><input type="checkbox" id="metLinks" checked> 🔗 Internal / external links</label>
+        <label class="checkbox-item"><input type="checkbox" id="metSEO" checked> 🔍 SEO meta completeness</label>
+        <label class="checkbox-item"><input type="checkbox" id="metReadTime" checked> ⏱️ Estimated reading time</label>
+        <label class="checkbox-item"><input type="checkbox" id="metValue"> 💰 Estimated content value (Wayback heuristic)</label>
+      </div>
+      <p class="modal-section-title">Output</p>
+      <div class="radio-group">
+        <label class="radio-chip"><input type="radio" name="metOutput" value="toast" checked> 🍞 Show in preview</label>
+        <label class="radio-chip"><input type="radio" name="metOutput" value="badge"> 🏅 Add metrics badge to page</label>
+        <label class="radio-chip"><input type="radio" name="metOutput" value="file"> 📄 Write METRICS.md</label>
+      </div>`,
+    preview: '// Fetches index.html\n// Runs metric analysis\n// Commit (if badge/file): "⚖️ Metrics report — [repo]"'
+  },
+
+  bugDoctor: {
+    title: 'Bug Doctor',
+    emoji: '💊',
+    desc: 'Diagnose broken links, mixed-content warnings, missing closing tags, duplicate IDs, and console errors. Prescribes fixes.',
+    form: `
+      <p class="modal-section-title">Diagnose</p>
+      <div class="checkbox-group">
+        <label class="checkbox-item"><input type="checkbox" id="bugLinks" checked> 🔗 Broken relative links</label>
+        <label class="checkbox-item"><input type="checkbox" id="bugTags" checked> 🏷️ Unclosed / mismatched tags</label>
+        <label class="checkbox-item"><input type="checkbox" id="bugDupId" checked> 🆔 Duplicate id= attributes</label>
+        <label class="checkbox-item"><input type="checkbox" id="bugMixed" checked> 🔓 HTTP resources in HTTPS page</label>
+        <label class="checkbox-item"><input type="checkbox" id="bugEmpty" checked> ⬛ Empty src/href attributes</label>
+      </div>
+      <p class="modal-section-title">Prescription</p>
+      <div class="radio-group">
+        <label class="radio-chip"><input type="radio" name="bugRx" value="report" checked> 📋 Report only</label>
+        <label class="radio-chip"><input type="radio" name="bugRx" value="fix"> 💊 Auto-fix where possible</label>
+      </div>`,
+    preview: '// Fetches index.html\n// Runs diagnostics\n// Commit (if auto-fix): "💊 Bug doctor — medicate [repo]"'
+  },
+
+  addRepoFiles: {
+    title: 'Add Repo Files',
+    emoji: '📀',
+    desc: 'Upload and commit custom files to your repository — images, scripts, data files, or any content from the web or your clipboard.',
+    form: `
+      <p class="modal-section-title">File to Add</p>
+      <input class="form-input mb-2" id="repoFileName" placeholder="path/in/repo.ext" />
+      <p class="modal-section-title">Content</p>
+      <textarea class="form-input mb-2" id="repoFileContent" rows="5" placeholder="Paste file content here…" style="font-family:monospace;font-size:12px;resize:vertical"></textarea>
+      <p class="modal-section-title">Or fetch from URL</p>
+      <input class="form-input" id="repoFileUrl" placeholder="https://… (fetched and committed as-is)" />`,
+    preview: '// Commits file to repo at specified path\n// Commit: "📀 Add file — [filename]"'
+  },
+
+  screenDisplay: {
+    title: 'Screen Display',
+    emoji: '🖥️',
+    desc: 'Add responsive display rules — media queries, print styles, dark-mode media query, and orientation handling.',
+    form: `
+      <p class="modal-section-title">Responsive Breakpoints</p>
+      <div class="checkbox-group">
+        <label class="checkbox-item"><input type="checkbox" id="screenMobile" checked> 📱 Mobile (≤480px)</label>
+        <label class="checkbox-item"><input type="checkbox" id="screenTablet" checked> 📟 Tablet (481–768px)</label>
+        <label class="checkbox-item"><input type="checkbox" id="screenDesktop"> 🖥️ Desktop (≥1200px)</label>
+        <label class="checkbox-item"><input type="checkbox" id="screenPrint"> 🖨️ Print styles</label>
+      </div>
+      <p class="modal-section-title">Display Features</p>
+      <div class="checkbox-group">
+        <label class="checkbox-item"><input type="checkbox" id="screenDark" checked> 🌑 prefers-color-scheme: dark</label>
+        <label class="checkbox-item"><input type="checkbox" id="screenMotion" checked> ♿ prefers-reduced-motion</label>
+        <label class="checkbox-item"><input type="checkbox" id="screenFlex" checked> 📐 Flexbox / Grid helper classes</label>
+      </div>`,
+    preview: '// Writes screen.css to repo root\n// Links in index.html &lt;head&gt;\n// Commit: "🖥️ Screen display — responsive CSS"'
   },
 };
 
@@ -970,13 +1889,55 @@ a { color: var(--accent); }
     const actionId = this.activeModal?.actionId;
     try {
       let result;
-      if      (actionId === 'moveUpDown')   result = await this._toolMoveUpDown(box, repoName);
-      else if (actionId === 'addPages')     result = await this._toolAddPages(box, repoName);
-      else if (actionId === 'quickFix')     result = await this._toolQuickFix(box, repoName);
-      else if (actionId === 'styles')       result = await this._toolStyles(box, repoName);
-      else if (actionId === 'pullMemory')   result = await this._toolPullMemory(box, repoName);
-      else if (actionId === 'dropContent')  result = await this._toolDropContent(box, repoName);
-      else if (actionId === 'toolbox')      result = await this._toolToolbox(box, repoName);
+      if      (actionId === 'moveUpDown')    result = await this._toolMoveUpDown(box, repoName);
+      else if (actionId === 'addPages')      result = await this._toolAddPages(box, repoName);
+      else if (actionId === 'quickFix')      result = await this._toolQuickFix(box, repoName);
+      else if (actionId === 'styles')        result = await this._toolStyles(box, repoName);
+      else if (actionId === 'pullMemory')    result = await this._toolPullMemory(box, repoName);
+      else if (actionId === 'dropContent')   result = await this._toolDropContent(box, repoName);
+      else if (actionId === 'toolbox')       result = await this._toolToolbox(box, repoName);
+      else if (actionId === 'microscope')    result = await this._toolMicroscope(box, repoName);
+      else if (actionId === 'deepFix')       result = await this._toolDeepFix(box, repoName);
+      else if (actionId === 'editRemove')    result = await this._toolEditRemove(box, repoName);
+      else if (actionId === 'doubleContent') result = await this._toolDoubleContent(box, repoName);
+      else if (actionId === 'updateContent') result = await this._toolUpdateContent(box, repoName);
+      else if (actionId === 'aiEngineer')    result = await this._toolAiEngineer(box, repoName);
+      else if (actionId === 'researchWriter')result = await this._toolResearchWriter(box, repoName);
+      else if (actionId === 'extractData')   result = await this._toolExtractData(box, repoName);
+      else if (actionId === 'facetsIntent')  result = await this._toolFacetsIntent(box, repoName);
+      else if (actionId === 'unifier')       result = await this._toolUnifier(box, repoName);
+      else if (actionId === 'cloneRepo')     result = await this._toolCloneRepo(box, repoName);
+      else if (actionId === 'hamburgerMenu') result = await this._toolHamburger(box, repoName);
+      else if (actionId === 'connectRepos')  result = await this._toolConnectRepos(box, repoName);
+      else if (actionId === 'mediaGallery')  result = await this._toolMediaGallery(box, repoName);
+      else if (actionId === 'visualizer')    result = await this._toolVisualizer(box, repoName);
+      else if (actionId === 'artStudio')     result = await this._toolArtStudio(box, repoName);
+      else if (actionId === 'addMusic')      result = await this._toolAddMusic(box, repoName);
+      else if (actionId === 'voiceMic')      result = await this._toolVoiceMic(box, repoName);
+      else if (actionId === 'advertising')   result = await this._toolAdvertising(box, repoName);
+      else if (actionId === 'modulator')     result = await this._toolModulator(box, repoName);
+      else if (actionId === 'pianoSignIn')   result = await this._toolPianoSignIn(box, repoName);
+      else if (actionId === 'payments')      result = await this._toolPayments(box, repoName);
+      else if (actionId === 'banking')       result = await this._toolBanking(box, repoName);
+      else if (actionId === 'shoppingCart')  result = await this._toolShoppingCart(box, repoName);
+      else if (actionId === 'merchant')      result = await this._toolMerchant(box, repoName);
+      else if (actionId === 'tokenWalker')   result = await this._toolTokenWalker(box, repoName);
+      else if (actionId === 'ticketBooth')   result = await this._toolTicketBooth(box, repoName);
+      else if (actionId === 'machinePart')   result = await this._toolMachinePart(box, repoName);
+      else if (actionId === 'triodeRepos')   result = await this._toolTriodeRepos(box, repoName);
+      else if (actionId === 'puzzleBuilder') result = await this._toolPuzzleBuilder(box, repoName);
+      else if (actionId === 'beltPulley')    result = await this._toolBeltPulley(box, repoName);
+      else if (actionId === 'soulIntent')    result = await this._toolSoulIntent(box, repoName);
+      else if (actionId === 'signalEmitter') result = await this._toolSignalEmitter(box, repoName);
+      else if (actionId === 'powerEmitter')  result = await this._toolPowerEmitter(box, repoName);
+      else if (actionId === 'petriDish')     result = await this._toolPetriDish(box, repoName);
+      else if (actionId === 'navigation')    result = await this._toolNavigation(box, repoName);
+      else if (actionId === 'encryptData')   result = await this._toolEncryptData(box, repoName);
+      else if (actionId === 'loveChurch')    result = await this._toolLoveChurch(box, repoName);
+      else if (actionId === 'metricsScale')  result = await this._toolMetrics(box, repoName);
+      else if (actionId === 'bugDoctor')     result = await this._toolBugDoctor(box, repoName);
+      else if (actionId === 'addRepoFiles')  result = await this._toolAddRepoFiles(box, repoName);
+      else if (actionId === 'screenDisplay') result = await this._toolScreenDisplay(box, repoName);
       else throw new Error(`No handler for ${actionId}`);
 
       // Show real result in preview
@@ -986,10 +1947,13 @@ a { color: var(--accent); }
         if (result?.pulled)            lines.push(`// Pulled ${result.length} chars from ${result.repo}/${result.path}`, `// Use 🟦 Drop Content to insert`);
         if (result?.committed?.length) lines.push(`// Files committed: ${result.committed.join(', ')}`);
         if (result?.pageName)          lines.push(`// Created: ${result.pageName}`);
+        if (result?.report?.length)    result.report.slice(0, 12).forEach(l => lines.push(`// ${l}`));
+        if (result?.repoUrl)           lines.push(`// New repo: ${result.repoUrl}`);
         pre.textContent = lines.join('\n');
         pre.style.color = 'var(--gitpub-accent2)';
       }
       this.showToast(`✅ ${toolName} — done!`, 'success');
+      if (result?.repoUrl) setTimeout(() => window.open(result.repoUrl, '_blank'), 600);
       setTimeout(() => this.closeModal(), 1500);
     } catch (err) {
       if (pre) { pre.textContent = `// ❌ Error: ${err.message}`; pre.style.color = '#ef4444'; }
