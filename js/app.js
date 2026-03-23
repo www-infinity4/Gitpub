@@ -210,11 +210,23 @@ class GitpubApp {
     return btoa(String.fromCharCode(...new TextEncoder().encode(str)));
   }
 
+
+  /* ── HTML escape helper (prevents XSS in dynamic HTML strings) ── */
+  static _escHtml(str) {
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
   /* ── Page template HTML generator ──────────────────────── */
   static _getPageTemplate(template, rawName, repoName) {
     const label = rawName || 'new-page';
-    const date  = new Date().toLocaleDateString();
-    const ts    = new Date().toISOString().slice(0, 10);
+    const now   = new Date();
+    const date  = now.toLocaleDateString();
+    const ts    = now.toISOString().slice(0, 10);
     const T = {
       blank: `<!DOCTYPE html>
 <html lang="en">
@@ -232,7 +244,7 @@ class GitpubApp {
   <header><a href="index.html">← Back to Home</a></header>
   <main>
     <h1>${label}</h1>
-    <p>Your content goes here. Click ✅ Apply &amp; Commit to create this page.</p>
+    <p>Your content goes here. Start writing and make it your own!</p>
   </main>
 </body>
 </html>`,
@@ -878,7 +890,7 @@ class GitpubApp {
           ? `💡 Your homepage exists! Great pages to add next:`
           : `💡 No homepage yet — start with one of these:`
         );
-      }).catch(() => {});
+      }).catch(() => { /* keep initial suggestions heading on error */ });
     }
   }
 
@@ -1085,7 +1097,7 @@ class GitpubApp {
         }
       }
       this._updateStats();
-      this.showToast(`🚀 GitHub Pages enabled for ${repoName}! Your site will be live in a moment.`, 'success');
+      this.showToast(`🚀 GitHub Pages enabled for ${repoName}! Your site will be live in a few minutes.`, 'success');
     } catch (err) {
       this.showToast(`❌ ${err.message}`, 'error');
       btn.disabled = false;
@@ -1330,7 +1342,8 @@ a { color: var(--accent); }
       // Show human-readable success
       if (isAddPages && iframe) {
         const pageName = result?.pageName || 'new-page.html';
-        iframe.srcdoc = `<html><body style="font-family:system-ui;display:flex;align-items:center;justify-content:center;height:90vh;background:#f0fff4;color:#166534;text-align:center"><p style="font-size:1.2rem;padding:2rem">✅ <strong>${pageName}</strong> was added to your site!<br><br><small style="color:#4b7059">It may take a moment to appear live.</small></p></body></html>`;
+        const safePage = GitpubApp._escHtml(pageName);
+        iframe.srcdoc = `<html><body style="font-family:system-ui;display:flex;align-items:center;justify-content:center;height:90vh;background:#f0fff4;color:#166534;text-align:center"><p style="font-size:1.2rem;padding:2rem">✅ <strong>${safePage}</strong> was added to your site!<br><br><small style="color:#4b7059">It may take a few minutes to appear live.</small></p></body></html>`;
       } else if (pre) {
         let msg = `✅ Done! ${toolName} applied to "${repoName}".`;
         if (result?.pulled)            msg += `\n\nCopied ${result.length} characters from ${result.repo}/${result.path}.\nNow use 📥 Paste In on another site to insert it.`;
@@ -1343,7 +1356,8 @@ a { color: var(--accent); }
       setTimeout(() => this.closeModal(), 2000);
     } catch (err) {
       if (isAddPages && iframe) {
-        iframe.srcdoc = `<html><body style="font-family:system-ui;display:flex;align-items:center;justify-content:center;height:90vh;background:#fff5f5;color:#9b1c1c;text-align:center;padding:2rem"><p>❌ <strong>Error:</strong><br>${err.message}</p></body></html>`;
+        const safeErr = GitpubApp._escHtml(err.message);
+        iframe.srcdoc = `<html><body style="font-family:system-ui;display:flex;align-items:center;justify-content:center;height:90vh;background:#fff5f5;color:#9b1c1c;text-align:center;padding:2rem"><p>❌ <strong>Error:</strong><br>${safeErr}</p></body></html>`;
       } else if (pre) {
         pre.textContent = `❌ Error: ${err.message}`;
         pre.style.color = '#ef4444';
