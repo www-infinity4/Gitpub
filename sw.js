@@ -1,10 +1,10 @@
 /**
  * Gitpub Service Worker
  * Strategy: Cache-first for static assets, Network-first for API calls
- * Version: gitpub-v1
+ * Version: gitpub-v2
  */
 
-const CACHE_NAME   = 'gitpub-v1';
+const CACHE_NAME   = 'gitpub-v2';
 const API_ORIGIN   = 'https://api.github.com';
 const FONTS_ORIGIN = 'https://fonts.googleapis.com';
 

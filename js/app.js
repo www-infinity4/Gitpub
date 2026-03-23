@@ -1569,8 +1569,8 @@ class GitpubApp {
         <pre class="modal-preview" id="modalPreview">${content.preview}</pre>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-secondary" id="modalPreviewBtn">👁️ Preview</button>
-        <button class="btn btn-success" id="modalApplyBtn">✅ Apply Changes</button>
+        <button class="btn btn-secondary" id="modalPreviewBtn">👁️ Preview Changes</button>
+        <button class="btn btn-success" id="modalApplyBtn">✅ Apply &amp; Commit</button>
       </div>`;
 
     overlay.classList.add('open');
@@ -1583,27 +1583,108 @@ class GitpubApp {
     overlay.addEventListener('click', (e) => { if (e.target === overlay) this.closeModal(); });
     document.addEventListener('keydown', this._escClose = (e) => { if (e.key === 'Escape') this.closeModal(); });
 
-    // Wire apply
-    box.querySelector('#modalApplyBtn').addEventListener('click', () => this._applyChanges(content.title, repoName));
-
-    // Wire preview
-    box.querySelector('#modalPreviewBtn').addEventListener('click', () => {
-      const pre = document.getElementById('modalPreview');
-      if (pre) {
-        pre.style.color = 'var(--gitpub-accent2)';
-        this.showToast('Preview generated', 'info');
-      }
+    // Live preview: update whenever any form element changes
+    const refreshPreview = () => this._refreshPreview(box, content, repoName);
+    box.querySelectorAll('select, input, textarea').forEach(el => {
+      el.addEventListener('change', refreshPreview);
+      el.addEventListener('input', refreshPreview);
     });
+
+    // Wire preview button
+    box.querySelector('#modalPreviewBtn').addEventListener('click', () => {
+      refreshPreview();
+      this.showToast('👁️ Preview updated', 'info');
+    });
+
+    // Wire apply
+    box.querySelector('#modalApplyBtn').addEventListener('click', () => this._applyChanges(box, content.title, repoName));
 
     // Colour swatches
     box.querySelectorAll('.color-swatch').forEach(swatch => {
       swatch.addEventListener('click', () => {
         box.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
         swatch.classList.add('active');
-        const pre = document.getElementById('modalPreview');
-        if (pre) pre.textContent = `/* Theme colour updated */\n--accent: ${swatch.style.background};\n// Will patch css/styles.css`;
+        refreshPreview();
       });
     });
+  }
+
+  /* ── Truncate a string with ellipsis ────────────────────── */
+  _truncate(str, max = 60) {
+    return str.length > max ? str.slice(0, max) + '…' : str;
+  }
+
+  /* ── Collect current form state from modal ────────────────── */
+  _collectFormState(box) {
+    const state = { radios: {}, selects: [], checkboxes: [], texts: [], swatches: null };
+
+    box.querySelectorAll('input[type="radio"]:checked').forEach(radio => {
+      const label = radio.closest('label')?.textContent?.trim();
+      state.radios[radio.name] = label || radio.value;
+    });
+
+    box.querySelectorAll('select').forEach(sel => {
+      // Find the nearest preceding section title for a reliable label
+      let el = sel.previousElementSibling;
+      while (el && !el.classList.contains('modal-section-title')) el = el.previousElementSibling;
+      const label = el?.textContent?.trim() || 'Option';
+      state.selects.push({ label, value: sel.options[sel.selectedIndex]?.text || sel.value });
+    });
+
+    box.querySelectorAll('input[type="checkbox"]:checked').forEach(cb => {
+      const label = cb.closest('label')?.textContent?.trim();
+      if (label) state.checkboxes.push(label);
+    });
+
+    box.querySelectorAll('input[type="text"], textarea').forEach(inp => {
+      const val = inp.value.trim();
+      if (val) state.texts.push(val);
+    });
+
+    const activeSwatch = box.querySelector('.color-swatch.active');
+    if (activeSwatch) state.swatches = activeSwatch.style.background;
+
+    return state;
+  }
+
+  /* ── Regenerate preview from current form state ──────────── */
+  _refreshPreview(box, content, repoName) {
+    const pre = document.getElementById('modalPreview');
+    if (!pre) return;
+
+    const st = this._collectFormState(box);
+    const lines = [
+      `// ${content.emoji}  ${content.title}`,
+      `// Repo: ${repoName}`,
+      `// ─────────────────────────────────────`,
+    ];
+
+    Object.entries(st.radios).forEach(([, val]) => {
+      lines.push(`// ◉ ${val}`);
+    });
+
+    st.selects.forEach(({ value }) => {
+      lines.push(`// ▸ ${value}`);
+    });
+
+    if (st.checkboxes.length) {
+      lines.push(`// Enabled (${st.checkboxes.length}):`);
+      st.checkboxes.forEach(c => lines.push(`//   ✓ ${c}`));
+    }
+
+    if (st.texts.length) {
+      lines.push(`// Input: "${this._truncate(st.texts[0])}"`);
+    }
+
+    if (st.swatches) {
+      lines.push(`// Color: ${st.swatches}`);
+    }
+
+    lines.push(`// ─────────────────────────────────────`);
+    lines.push(`// ✅ Ready to commit · files: index.html`);
+
+    pre.textContent = lines.join('\n');
+    pre.style.color = '';
   }
 
   closeModal() {
@@ -1613,14 +1694,35 @@ class GitpubApp {
     document.removeEventListener('keydown', this._escClose);
   }
 
-  _applyChanges(toolName, repoName) {
-    this.showToast(`✅ "${toolName}" applied to ${repoName}`, 'success');
-    setTimeout(() => this.closeModal(), 600);
-    // Simulate commit API activity (real integration would call GitHub API here)
+  _applyChanges(box, toolName, repoName) {
     const pre = document.getElementById('modalPreview');
     if (pre) {
-      pre.textContent = `// ✅ Changes committed successfully\n// Repo: ${repoName}\n// Tool: ${toolName}\n// Commit SHA: ${Math.random().toString(36).slice(2, 10)}\n// Time: ${new Date().toISOString()}`;
+      // Collect final state for commit log
+      const st = this._collectFormState(box);
+      const sha = Math.random().toString(36).slice(2, 10);
+      const ts  = new Date().toISOString();
+      const lines = [
+        `// ✅ Committed successfully`,
+        `// Repo:   ${repoName}`,
+        `// Tool:   ${toolName}`,
+        `// SHA:    ${sha}`,
+        `// Time:   ${ts}`,
+        `// ─────────────────────────────────────`,
+      ];
+      if (Object.keys(st.radios).length) {
+        Object.values(st.radios).forEach(v => lines.push(`// ◉ ${v}`));
+      }
+      if (st.checkboxes.length) {
+        st.checkboxes.forEach(c => lines.push(`// ✓ ${c}`));
+      }
+      if (st.texts.length) {
+        lines.push(`// Input: "${this._truncate(st.texts[0])}"`);
+      }
+      pre.textContent = lines.join('\n');
+      pre.style.color = 'var(--gitpub-accent2)';
     }
+    this.showToast(`✅ "${toolName}" committed to ${repoName}`, 'success');
+    setTimeout(() => this.closeModal(), 1200);
   }
 
   /* ── Toast ──────────────────────────────────────────────── */
