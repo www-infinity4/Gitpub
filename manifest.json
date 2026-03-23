@@ -5,6 +5,7 @@
   "start_url": "/Gitpub/",
   "scope": "/Gitpub/",
   "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
   "orientation": "any",
   "background_color": "#0d1117",
   "theme_color": "#6366f1",
