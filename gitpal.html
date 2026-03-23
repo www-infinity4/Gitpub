@@ -100,7 +100,7 @@
         <span class="nav-link-icon">🐙</span> Gitpub
       </a>
       <a href="/Gitpub/gitpal.html" class="nav-link active">
-        <span class="nav-link-icon">🤖</span> Gitpal
+        <span class="nav-link-icon">🕷️</span> Gitpal
       </a>
       <div class="nav-divider"></div>
       <a href="#settings" class="nav-link" id="navSettings">
@@ -123,7 +123,33 @@
 <!-- ── Header ──────────────────────────────────────────────── -->
 <header class="site-header gitpal" role="banner">
   <a href="/Gitpub/gitpal.html" class="header-logo" aria-label="Gitpal Home">
-    <div class="logo-icon" aria-hidden="true">🤖</div>
+    <div class="logo-icon" aria-hidden="true">
+      <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" width="22" height="22" style="display:block">
+        <!-- Ears/horns -->
+        <polygon points="28,22 23,8 34,18" fill="#60a5fa"/>
+        <polygon points="52,22 57,8 46,18" fill="#60a5fa"/>
+        <!-- Head -->
+        <circle cx="40" cy="32" r="18" fill="#3b82f6"/>
+        <!-- Eyes -->
+        <circle cx="33" cy="29" r="5" fill="white"/>
+        <circle cx="47" cy="29" r="5" fill="white"/>
+        <circle cx="33" cy="30" r="2.5" fill="#1e3a5f"/>
+        <circle cx="47" cy="30" r="2.5" fill="#1e3a5f"/>
+        <!-- Smile -->
+        <path d="M34,39 Q40,44 46,39" stroke="#1d4ed8" fill="none" stroke-width="1.5" stroke-linecap="round"/>
+        <!-- Body -->
+        <ellipse cx="40" cy="61" rx="16" ry="12" fill="#3b82f6"/>
+        <!-- GP text -->
+        <text x="40" y="65" text-anchor="middle" fill="white" font-size="9" font-weight="bold" font-family="system-ui,sans-serif">GP</text>
+        <!-- Legs -->
+        <line x1="27" y1="57" x2="12" y2="48" stroke="#60a5fa" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="25" y1="63" x2="8"  y2="63" stroke="#60a5fa" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="27" y1="69" x2="12" y2="78" stroke="#60a5fa" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="53" y1="57" x2="68" y2="48" stroke="#60a5fa" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="55" y1="63" x2="72" y2="63" stroke="#60a5fa" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="53" y1="69" x2="68" y2="78" stroke="#60a5fa" stroke-width="2.5" stroke-linecap="round"/>
+      </svg>
+    </div>
     <span>Gitpal</span>
   </a>
   <div class="header-actions">
@@ -223,32 +249,55 @@
     <section aria-labelledby="chatTitle" style="margin-bottom:32px">
       <div class="section-bar">
         <div>
-          <div class="section-title" id="chatTitle">🤖 Gitpal AI Chat</div>
-          <div class="section-meta">Ask anything about your repos, GitHub Pages, or PWAs</div>
+          <div class="section-title" id="chatTitle">🕷️ Gitpal AI Chat</div>
+          <div class="section-meta">Ask anything — building pages, growing your site, or what to add next</div>
         </div>
       </div>
 
       <div class="chat-widget">
         <div class="chat-header">
-          <div class="chat-avatar">🤖</div>
+          <div class="chat-avatar" style="overflow:hidden">
+            <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+              <polygon points="28,22 23,8 34,18" fill="#c084fc"/>
+              <polygon points="52,22 57,8 46,18" fill="#c084fc"/>
+              <circle cx="40" cy="32" r="18" fill="#a855f7"/>
+              <circle cx="33" cy="29" r="5" fill="white"/>
+              <circle cx="47" cy="29" r="5" fill="white"/>
+              <circle cx="33" cy="30" r="2.5" fill="#4c1d95"/>
+              <circle cx="47" cy="30" r="2.5" fill="#4c1d95"/>
+              <path d="M34,39 Q40,44 46,39" stroke="#6b21a8" fill="none" stroke-width="1.5" stroke-linecap="round"/>
+              <ellipse cx="40" cy="61" rx="16" ry="12" fill="#a855f7"/>
+              <text x="40" y="65" text-anchor="middle" fill="white" font-size="9" font-weight="bold" font-family="system-ui,sans-serif">GP</text>
+              <line x1="27" y1="57" x2="12" y2="48" stroke="#c084fc" stroke-width="2.5" stroke-linecap="round"/>
+              <line x1="25" y1="63" x2="8"  y2="63" stroke="#c084fc" stroke-width="2.5" stroke-linecap="round"/>
+              <line x1="27" y1="69" x2="12" y2="78" stroke="#c084fc" stroke-width="2.5" stroke-linecap="round"/>
+              <line x1="53" y1="57" x2="68" y2="48" stroke="#c084fc" stroke-width="2.5" stroke-linecap="round"/>
+              <line x1="55" y1="63" x2="72" y2="63" stroke="#c084fc" stroke-width="2.5" stroke-linecap="round"/>
+              <line x1="53" y1="69" x2="68" y2="78" stroke="#c084fc" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
+          </div>
           <div class="chat-header-info">
-            <h3>Gitpal Assistant</h3>
-            <span><span class="chat-online-dot"></span>Online · Always ready to help</span>
+            <h3>Gitpal — GP</h3>
+            <span><span class="chat-online-dot"></span>Online · Ready to help you build</span>
           </div>
         </div>
 
         <div class="chat-messages" id="chatMessages" role="log" aria-live="polite" aria-label="Chat messages">
           <!-- Greeting message -->
           <div class="chat-msg bot">
-            <div class="chat-bot-avatar">🤖</div>
+            <div class="chat-bot-avatar" style="overflow:hidden">
+              <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" width="16" height="16"><polygon points="28,22 23,8 34,18" fill="#c084fc"/><polygon points="52,22 57,8 46,18" fill="#c084fc"/><circle cx="40" cy="32" r="18" fill="#a855f7"/><circle cx="33" cy="29" r="5" fill="white"/><circle cx="47" cy="29" r="5" fill="white"/><circle cx="33" cy="30" r="2.5" fill="#4c1d95"/><circle cx="47" cy="30" r="2.5" fill="#4c1d95"/><path d="M34,39 Q40,44 46,39" stroke="#6b21a8" fill="none" stroke-width="1.5" stroke-linecap="round"/><ellipse cx="40" cy="61" rx="16" ry="12" fill="#a855f7"/><text x="40" y="65" text-anchor="middle" fill="white" font-size="9" font-weight="bold" font-family="system-ui,sans-serif">GP</text><line x1="27" y1="57" x2="12" y2="48" stroke="#c084fc" stroke-width="2.5" stroke-linecap="round"/><line x1="25" y1="63" x2="8" y2="63" stroke="#c084fc" stroke-width="2.5" stroke-linecap="round"/><line x1="27" y1="69" x2="12" y2="78" stroke="#c084fc" stroke-width="2.5" stroke-linecap="round"/><line x1="53" y1="57" x2="68" y2="48" stroke="#c084fc" stroke-width="2.5" stroke-linecap="round"/><line x1="55" y1="63" x2="72" y2="63" stroke="#c084fc" stroke-width="2.5" stroke-linecap="round"/><line x1="53" y1="69" x2="68" y2="78" stroke="#c084fc" stroke-width="2.5" stroke-linecap="round"/></svg>
+            </div>
             <div class="chat-bubble">
-              👋 Hey there! I'm <strong>Gitpal</strong>, your AI repository companion. I can help you with GitHub Pages, PWA setup, repo management, and more. What would you like to work on today?
+              👋 Hey! I'm <strong>Gitpal (GP)</strong>. I help you build and grow your websites right from GitHub. Ask me anything — what page to add, how to make your site look better, or what to do next.
             </div>
           </div>
           <div class="chat-msg bot">
-            <div class="chat-bot-avatar">🤖</div>
+            <div class="chat-bot-avatar" style="overflow:hidden">
+              <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" width="16" height="16"><polygon points="28,22 23,8 34,18" fill="#c084fc"/><polygon points="52,22 57,8 46,18" fill="#c084fc"/><circle cx="40" cy="32" r="18" fill="#a855f7"/><circle cx="33" cy="29" r="5" fill="white"/><circle cx="47" cy="29" r="5" fill="white"/><circle cx="33" cy="30" r="2.5" fill="#4c1d95"/><circle cx="47" cy="30" r="2.5" fill="#4c1d95"/><path d="M34,39 Q40,44 46,39" stroke="#6b21a8" fill="none" stroke-width="1.5" stroke-linecap="round"/><ellipse cx="40" cy="61" rx="16" ry="12" fill="#a855f7"/><text x="40" y="65" text-anchor="middle" fill="white" font-size="9" font-weight="bold" font-family="system-ui,sans-serif">GP</text><line x1="27" y1="57" x2="12" y2="48" stroke="#c084fc" stroke-width="2.5" stroke-linecap="round"/><line x1="25" y1="63" x2="8" y2="63" stroke="#c084fc" stroke-width="2.5" stroke-linecap="round"/><line x1="27" y1="69" x2="12" y2="78" stroke="#c084fc" stroke-width="2.5" stroke-linecap="round"/><line x1="53" y1="57" x2="68" y2="48" stroke="#c084fc" stroke-width="2.5" stroke-linecap="round"/><line x1="55" y1="63" x2="72" y2="63" stroke="#c084fc" stroke-width="2.5" stroke-linecap="round"/><line x1="53" y1="69" x2="68" y2="78" stroke="#c084fc" stroke-width="2.5" stroke-linecap="round"/></svg>
+            </div>
             <div class="chat-bubble">
-              💡 <em>Tip:</em> Use the emoji toolbar on each repo card below to access 56 AI-powered tools — from styling your site to minting tokens and connecting repos into networks!
+              💡 <strong>Tip:</strong> Go to <a href="/Gitpub/index.html">Gitpub</a>, find your repo, and click <strong>🚀 Go Live!</strong> to publish it. Then use <strong>➕ Add Page</strong> to start building it out — I'll suggest what fits your site!
             </div>
           </div>
         </div>

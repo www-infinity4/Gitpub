@@ -29,19 +29,19 @@ const LANG_COLORS = {
 };
 
 /* ── Emoji toolbar rows definition ──────────────────────────
-   Each entry: [emoji, id, title]
+   Each entry: [emoji, id, fullTitle, shortLabel]
    ─────────────────────────────────────────────────────────── */
 const EMOJI_ROWS = [
   {
-    label: 'Page Tools',
+    label: 'Website Tools',
     buttons: [
-      ['📍','moveUpDown',  'Move Up/Down', 'Move'],
-      ['📎','addPages',    'Add Pages',    'Pages'],
-      ['🔧','quickFix',    'Quick Fix',    'Fix'],
-      ['🪣','styles',      'Styles',       'Styles'],
-      ['🧲','pullMemory',  'Pull Memory',  'Pull'],
-      ['🟦','dropContent', 'Drop Content', 'Drop'],
-      ['🧰','toolbox',     'Toolbox',      'Tools'],
+      ['➕','addPages',    'Add a New Page',      'Add Page'],
+      ['🔼','moveUpDown',  'Reorder Page Sections','Reorder'],
+      ['🩹','quickFix',    'Fix Common Issues',    'Fix It'],
+      ['🎨','styles',      'Change Site Colours',  'Themes'],
+      ['📋','pullMemory',  'Copy From Another Site','Copy'],
+      ['📥','dropContent', 'Paste Copied Content', 'Paste'],
+      ['⚙️','toolbox',     'Generate Site Files',  'Site Tools'],
     ]
   },
 ];
@@ -50,11 +50,11 @@ const EMOJI_ROWS = [
 /* ── Modal content definitions (7 working tools) ────────── */
 const MODAL_CONTENT = {
   moveUpDown: {
-    title: 'Move Up/Down',
-    emoji: '📍',
-    desc: 'Reorder sections on your GitHub Pages site. Fetches your index.html, moves the selected section up or down, and commits the result.',
+    title: 'Reorder Sections',
+    emoji: '🔼',
+    desc: "Move sections up or down on your website's homepage. Pick which section to move and which direction — your homepage will update automatically.",
     form: `
-      <p class="modal-section-title">Select Section</p>
+      <p class="modal-section-title">Which section do you want to move?</p>
       <select class="select-input mb-2" id="moveSection">
         <option>Hero / Banner</option>
         <option>Features Grid</option>
@@ -63,137 +63,137 @@ const MODAL_CONTENT = {
         <option>Contact Form</option>
         <option>Footer</option>
       </select>
-      <p class="modal-section-title">Direction</p>
+      <p class="modal-section-title">Which direction?</p>
       <div class="radio-group">
         <label class="radio-chip"><input type="radio" name="dir" value="up" checked> ⬆️ Move Up</label>
         <label class="radio-chip"><input type="radio" name="dir" value="down"> ⬇️ Move Down</label>
-        <label class="radio-chip"><input type="radio" name="dir" value="top"> ⬆️⬆️ To Top</label>
-        <label class="radio-chip"><input type="radio" name="dir" value="bottom"> ⬇️⬇️ To Bottom</label>
+        <label class="radio-chip"><input type="radio" name="dir" value="top"> ⬆️⬆️ Move to Very Top</label>
+        <label class="radio-chip"><input type="radio" name="dir" value="bottom"> ⬇️⬇️ Move to Very Bottom</label>
       </div>`,
-    preview: '// Will fetch index.html from repo\n// Reorder selected section\n// Commit: "📍 Move section [name] [direction]"'
+    preview: 'Moving "Hero / Banner" up on your homepage.'
   },
 
   addPages: {
-    title: 'Add Pages',
-    emoji: '📎',
-    desc: 'Create a new HTML page in your repo. Choose a page name and template — the file is committed directly to your repository.',
+    title: 'Add a New Page',
+    emoji: '➕',
+    desc: 'Create a brand new page for your website. Type a name, pick a style, and hit the button — the page is added to your site automatically.',
     form: `
-      <p class="modal-section-title">Page Name <span style="color:var(--text-secondary)">(no spaces)</span></p>
-      <input class="form-input mb-2" id="newPageName" placeholder="e.g. about, contact, portfolio" />
-      <p class="modal-section-title">Page Template</p>
+      <div id="pageSuggestions"></div>
+      <p class="modal-section-title">Page Name <span style="color:var(--text-secondary);font-weight:400;text-transform:none">(one word, no spaces)</span></p>
+      <input class="form-input mb-2" id="newPageName" placeholder="e.g. about, contact, gallery" />
+      <p class="modal-section-title">What kind of page?</p>
       <select class="select-input mb-2" id="newPageTemplate">
-        <option value="blank">Blank Page</option>
-        <option value="blog">Blog Post</option>
-        <option value="gallery">Portfolio Gallery</option>
+        <option value="blank">Blank / Custom Page</option>
+        <option value="blog">Blog Post / Article</option>
+        <option value="gallery">Photo Gallery / Portfolio</option>
         <option value="contact">Contact Form</option>
-        <option value="pricing">Pricing Table</option>
-        <option value="docs">Documentation</option>
+        <option value="pricing">Pricing / Plans</option>
+        <option value="docs">How-To / Documentation</option>
       </select>
       <p class="modal-section-title">Options</p>
       <div class="checkbox-group">
-        <label class="checkbox-item"><input type="checkbox" id="addToNav" checked> Add nav link in index.html</label>
+        <label class="checkbox-item"><input type="checkbox" id="addToNav" checked> Add a link to this page on your homepage</label>
       </div>`,
-    preview: '// Will create: {pagename}.html\n// Template selected\n// Commit: "📎 Add page {pagename}.html"'
+    preview: 'Type a page name above to see a preview of what it will look like.'
   },
 
   quickFix: {
-    title: 'Quick Fix',
-    emoji: '🔧',
-    desc: 'Scans your index.html and automatically patches common issues — missing viewport meta, overflow bugs, and missing alt attributes.',
+    title: 'Fix Common Issues',
+    emoji: '🩹',
+    desc: 'Automatically fixes common problems with your website — things that can make it look broken on phones or rank poorly in Google.',
     form: `
-      <p class="modal-section-title">Apply Fixes</p>
+      <p class="modal-section-title">What do you want to fix?</p>
       <div class="checkbox-group">
-        <label class="checkbox-item"><input type="checkbox" id="fixViewport" checked> Add missing viewport meta tag</label>
-        <label class="checkbox-item"><input type="checkbox" id="fixOverflow" checked> Fix mobile overflow (body overflow-x:hidden)</label>
-        <label class="checkbox-item"><input type="checkbox" id="fixAlt" checked> Add empty alt="" to images missing it</label>
-        <label class="checkbox-item"><input type="checkbox" id="fixCharset" checked> Add charset UTF-8 if missing</label>
+        <label class="checkbox-item"><input type="checkbox" id="fixViewport" checked> Make it look right on phones (mobile viewport)</label>
+        <label class="checkbox-item"><input type="checkbox" id="fixOverflow" checked> Stop horizontal scrolling on mobile</label>
+        <label class="checkbox-item"><input type="checkbox" id="fixAlt" checked> Add descriptions to images (helps Google)</label>
+        <label class="checkbox-item"><input type="checkbox" id="fixCharset" checked> Fix text encoding (charset)</label>
       </div>`,
-    preview: '// Will fetch index.html\n// Apply selected fixes\n// Commit: "🔧 Quick fix — auto-patch index.html"'
+    preview: 'Will fix the checked issues on your homepage and save the changes.'
   },
 
   styles: {
-    title: 'Styles',
-    emoji: '🪣',
-    desc: 'Write a CSS theme file to your repo. Pick a colour and theme — a styles.css (or theme.css) is committed with the variables set.',
+    title: 'Change Site Colours',
+    emoji: '🎨',
+    desc: 'Pick a colour scheme and background theme for your website. This creates a theme file that styles your whole site.',
     form: `
-      <p class="modal-section-title">Accent Color</p>
+      <p class="modal-section-title">Pick a main colour</p>
       <div class="color-swatches">
-        <div class="color-swatch active" data-color="#6366f1" style="background:#6366f1" title="Indigo"></div>
-        <div class="color-swatch" data-color="#8b5cf6" style="background:#8b5cf6" title="Purple"></div>
+        <div class="color-swatch active" data-color="#6366f1" style="background:#6366f1" title="Indigo / Purple"></div>
+        <div class="color-swatch" data-color="#8b5cf6" style="background:#8b5cf6" title="Violet"></div>
         <div class="color-swatch" data-color="#ec4899" style="background:#ec4899" title="Pink"></div>
-        <div class="color-swatch" data-color="#06b6d4" style="background:#06b6d4" title="Cyan"></div>
+        <div class="color-swatch" data-color="#06b6d4" style="background:#06b6d4" title="Cyan / Blue"></div>
         <div class="color-swatch" data-color="#22c55e" style="background:#22c55e" title="Green"></div>
-        <div class="color-swatch" data-color="#f59e0b" style="background:#f59e0b" title="Amber"></div>
+        <div class="color-swatch" data-color="#f59e0b" style="background:#f59e0b" title="Gold / Amber"></div>
         <div class="color-swatch" data-color="#ef4444" style="background:#ef4444" title="Red"></div>
-        <div class="color-swatch" data-color="#64748b" style="background:#64748b" title="Slate"></div>
+        <div class="color-swatch" data-color="#64748b" style="background:#64748b" title="Grey / Slate"></div>
       </div>
-      <p class="modal-section-title">Theme</p>
+      <p class="modal-section-title">Background style</p>
       <div class="radio-group">
         <label class="radio-chip"><input type="radio" name="bgTheme" value="dark" checked> 🌑 Dark</label>
         <label class="radio-chip"><input type="radio" name="bgTheme" value="light"> ☀️ Light</label>
         <label class="radio-chip"><input type="radio" name="bgTheme" value="ocean"> 🌊 Ocean</label>
         <label class="radio-chip"><input type="radio" name="bgTheme" value="forest"> 🌲 Forest</label>
       </div>
-      <p class="modal-section-title">Font</p>
+      <p class="modal-section-title">Font style</p>
       <select class="select-input" id="styleFont">
-        <option value="Inter">Inter (Modern)</option>
-        <option value="Georgia">Georgia (Serif)</option>
-        <option value="'JetBrains Mono'">JetBrains Mono (Code)</option>
-        <option value="system-ui">System UI (Native)</option>
+        <option value="Inter">Inter — Modern &amp; Clean</option>
+        <option value="Georgia">Georgia — Classic &amp; Elegant</option>
+        <option value="'JetBrains Mono'">JetBrains Mono — Code Style</option>
+        <option value="system-ui">System Default</option>
       </select>`,
-    preview: '// Will write theme.css to repo root\n// Commit: "🪣 Apply theme — [color] [theme]"'
+    preview: 'Will apply a Dark theme with Indigo colour and Inter font to your website.'
   },
 
   pullMemory: {
-    title: 'Pull Memory',
-    emoji: '🧲',
-    desc: 'Fetches a file from one of your other repos and saves it to memory. Use 🟦 Drop Content to paste it into this repo.',
+    title: 'Copy From Another Site',
+    emoji: '📋',
+    desc: 'Copy content from one of your other websites and save it. Then use "📥 Paste In" to drop it into this site.',
     form: `
-      <p class="modal-section-title">Source Repository</p>
+      <p class="modal-section-title">Which site do you want to copy from?</p>
       <select class="select-input mb-2" id="pullMemoryRepo">
-        <option value="">— select a repo —</option>
+        <option value="">— pick a site —</option>
       </select>
-      <p class="modal-section-title">File to Pull</p>
+      <p class="modal-section-title">What do you want to copy?</p>
       <div class="radio-group">
-        <label class="radio-chip"><input type="radio" name="pullFile" value="index.html" checked> 📄 index.html</label>
-        <label class="radio-chip"><input type="radio" name="pullFile" value="css/styles.css"> �� css/styles.css</label>
-        <label class="radio-chip"><input type="radio" name="pullFile" value="README.md"> 📝 README.md</label>
+        <label class="radio-chip"><input type="radio" name="pullFile" value="index.html" checked> 🏠 Homepage (index.html)</label>
+        <label class="radio-chip"><input type="radio" name="pullFile" value="css/styles.css"> 🎨 Stylesheet (styles.css)</label>
+        <label class="radio-chip"><input type="radio" name="pullFile" value="README.md"> 📝 README</label>
       </div>`,
-    preview: '// Fetches file from source repo\n// Stores text in browser memory\n// Ready for 🟦 Drop Content'
+    preview: 'Will copy the selected file and hold it ready for pasting into another site.'
   },
 
   dropContent: {
-    title: 'Drop Content',
-    emoji: '🟦',
-    desc: 'Inserts the content you pulled with 🧲 Pull Memory into this repo\'s index.html, then commits.',
+    title: 'Paste Copied Content',
+    emoji: '📥',
+    desc: "Paste the content you copied with \"📋 Copy From Another Site\" into this website's homepage.",
     form: `
-      <p class="modal-section-title">Memory Preview</p>
-      <pre class="modal-preview" id="memoryPreview" style="max-height:120px;font-size:11px">// No memory stored yet — use 🧲 Pull Memory first</pre>
-      <p class="modal-section-title">Insert Location</p>
+      <p class="modal-section-title">Copied content (ready to paste)</p>
+      <pre class="modal-preview" id="memoryPreview" style="max-height:120px;font-size:11px">Nothing copied yet — use 📋 Copy From Another Site first</pre>
+      <p class="modal-section-title">Where do you want to paste it?</p>
       <div class="radio-group">
-        <label class="radio-chip"><input type="radio" name="dropLoc" value="bottom" checked> 🔚 Append to bottom</label>
-        <label class="radio-chip"><input type="radio" name="dropLoc" value="top"> 🔝 Prepend to top</label>
-        <label class="radio-chip"><input type="radio" name="dropLoc" value="replace"> 🔄 Replace entire file</label>
+        <label class="radio-chip"><input type="radio" name="dropLoc" value="bottom" checked> 🔚 At the end of the page</label>
+        <label class="radio-chip"><input type="radio" name="dropLoc" value="top"> 🔝 At the top of the page</label>
+        <label class="radio-chip"><input type="radio" name="dropLoc" value="replace"> 🔄 Replace the whole page</label>
       </div>`,
-    preview: '// Will read stored memory\n// Insert into this repo\'s index.html\n// Commit: "🟦 Drop content from memory"'
+    preview: 'Will paste the copied content into your homepage.'
   },
 
   toolbox: {
-    title: 'Toolbox',
-    emoji: '🧰',
-    desc: 'Generate and commit useful web project files — sitemap, robots.txt, PWA manifest, and SEO meta tags.',
+    title: 'Generate Site Files',
+    emoji: '⚙️',
+    desc: 'Create extra files that help your website get found on Google and work like an app on phones.',
     form: `
-      <p class="modal-section-title">Files to Generate</p>
+      <p class="modal-section-title">What do you want to create?</p>
       <div class="checkbox-group">
-        <label class="checkbox-item"><input type="checkbox" id="toolSitemap"> 🔍 sitemap.xml</label>
-        <label class="checkbox-item"><input type="checkbox" id="toolRobots"> 🤖 robots.txt</label>
-        <label class="checkbox-item"><input type="checkbox" id="toolManifest"> 📱 manifest.json (PWA)</label>
-        <label class="checkbox-item"><input type="checkbox" id="toolOG"> 🗺️ Add Open Graph meta tags to index.html</label>
+        <label class="checkbox-item"><input type="checkbox" id="toolSitemap"> 🗺️ Site map (helps Google find all your pages)</label>
+        <label class="checkbox-item"><input type="checkbox" id="toolRobots"> 🤖 robots.txt (tells search engines what to index)</label>
+        <label class="checkbox-item"><input type="checkbox" id="toolManifest"> 📱 App manifest (makes your site installable on phones)</label>
+        <label class="checkbox-item"><input type="checkbox" id="toolOG"> 🔗 Social preview (shows a nice card when shared on social media)</label>
       </div>`,
-    preview: '// Each checked item creates/updates a file\n// Commit: "🧰 Toolbox — generate web files"'
+    preview: 'Select items above — each checked box creates a file for your website.'
   },
 };
-
 
 /* ══════════════════════════════════════════════════════════
    GitpubApp class
@@ -208,6 +208,175 @@ class GitpubApp {
 
   static _b64encode(str) {
     return btoa(String.fromCharCode(...new TextEncoder().encode(str)));
+  }
+
+  /* ── Page template HTML generator ──────────────────────── */
+  static _getPageTemplate(template, rawName, repoName) {
+    const label = rawName || 'new-page';
+    const date  = new Date().toLocaleDateString();
+    const ts    = new Date().toISOString().slice(0, 10);
+    const T = {
+      blank: `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${label} — ${repoName}</title>
+  <style>
+    body{font-family:system-ui,sans-serif;max-width:820px;margin:2rem auto;padding:0 1.2rem;background:#f9fafc;color:#1f2937}
+    header{margin-bottom:2rem}a{color:#6366f1;text-decoration:none}
+    h1{font-size:2rem;margin-bottom:.5rem}
+  </style>
+</head>
+<body>
+  <header><a href="index.html">← Back to Home</a></header>
+  <main>
+    <h1>${label}</h1>
+    <p>Your content goes here. Click ✅ Apply &amp; Commit to create this page.</p>
+  </main>
+</body>
+</html>`,
+      blog: `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${label} — ${repoName}</title>
+  <style>
+    body{font-family:Georgia,serif;max-width:720px;margin:2rem auto;padding:0 1.2rem;line-height:1.75;color:#1f2937;background:#fff}
+    header{font-family:system-ui,sans-serif;margin-bottom:2rem}a{color:#6366f1}
+    time{color:#6b7280;font-size:.9rem;font-family:system-ui,sans-serif}
+    h1{font-size:2rem;margin-bottom:.3rem}
+  </style>
+</head>
+<body>
+  <header><a href="index.html">← Back to Home</a></header>
+  <main>
+    <article>
+      <h1>${label}</h1>
+      <time datetime="${ts}">${date}</time>
+      <p>Your blog post content goes here. Start writing!</p>
+    </article>
+  </main>
+</body>
+</html>`,
+      gallery: `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${label} — ${repoName}</title>
+  <style>
+    body{font-family:system-ui,sans-serif;max-width:1000px;margin:2rem auto;padding:0 1.2rem;background:#111;color:#eee}
+    header{margin-bottom:2rem}a{color:#a78bfa}
+    h1{font-size:2rem}
+    .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1rem;margin-top:1rem}
+    .gallery-item{background:#222;border-radius:10px;aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:2.5rem;border:1px solid #333}
+  </style>
+</head>
+<body>
+  <header><a href="index.html">← Back to Home</a></header>
+  <main>
+    <h1>${label}</h1>
+    <p style="color:#9ca3af">Add your images below.</p>
+    <div class="gallery">
+      <div class="gallery-item">🖼️</div>
+      <div class="gallery-item">🖼️</div>
+      <div class="gallery-item">🖼️</div>
+    </div>
+  </main>
+</body>
+</html>`,
+      contact: `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact — ${repoName}</title>
+  <style>
+    body{font-family:system-ui,sans-serif;max-width:600px;margin:2rem auto;padding:0 1.2rem;color:#1f2937;background:#fff}
+    header{margin-bottom:2rem}a{color:#6366f1}
+    h1{font-size:2rem}
+    label{display:block;margin-bottom:1rem;font-weight:600}
+    input,textarea{width:100%;padding:.6rem .8rem;border:1.5px solid #d1d5db;border-radius:8px;font:inherit;margin-top:.3rem;box-sizing:border-box}
+    input:focus,textarea:focus{border-color:#6366f1;outline:none}
+    button{background:#6366f1;color:#fff;border:none;padding:.65rem 1.6rem;border-radius:8px;font:inherit;font-weight:600;cursor:pointer;margin-top:.5rem}
+  </style>
+</head>
+<body>
+  <header><a href="index.html">← Back to Home</a></header>
+  <main>
+    <h1>Contact</h1>
+    <form>
+      <label>Your Name<br><input type="text" placeholder="Jane Smith"></label>
+      <label>Your Email<br><input type="email" placeholder="jane@example.com"></label>
+      <label>Message<br><textarea rows="5" placeholder="Write your message here…"></textarea></label>
+      <button type="submit">Send Message</button>
+    </form>
+  </main>
+</body>
+</html>`,
+      pricing: `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pricing — ${repoName}</title>
+  <style>
+    body{font-family:system-ui,sans-serif;max-width:900px;margin:2rem auto;padding:0 1.2rem;color:#1f2937;background:#f9fafc}
+    header{margin-bottom:2rem}a{color:#6366f1}h1{font-size:2rem}
+    .plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.2rem;margin-top:1.5rem}
+    .plan{background:#fff;border:2px solid #e5e7eb;border-radius:14px;padding:1.6rem;text-align:center}
+    .plan.featured{border-color:#6366f1;background:#f5f3ff}
+    .price{font-size:2.2rem;font-weight:900;margin:.5rem 0;color:#6366f1}
+    .plan ul{text-align:left;margin:.8rem 0 1rem;padding-left:1.2rem}
+    .plan button{background:#6366f1;color:#fff;border:none;padding:.5rem 1.2rem;border-radius:8px;cursor:pointer;font:inherit;font-weight:600}
+  </style>
+</head>
+<body>
+  <header><a href="index.html">← Back to Home</a></header>
+  <main>
+    <h1>Pricing</h1>
+    <div class="plans">
+      <div class="plan"><h2>Free</h2><div class="price">$0</div><p>/month</p><ul><li>Feature A</li><li>Feature B</li></ul><button>Get Started</button></div>
+      <div class="plan featured"><h2>Pro</h2><div class="price">$9</div><p>/month</p><ul><li>Feature A</li><li>Feature B</li><li>Feature C</li></ul><button>Upgrade Now</button></div>
+    </div>
+  </main>
+</body>
+</html>`,
+      docs: `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Docs — ${repoName}</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:system-ui,sans-serif;display:grid;grid-template-columns:220px 1fr;min-height:100vh;color:#1f2937}
+    nav{background:#f3f4f6;padding:1.5rem 1rem;border-right:1px solid #e5e7eb;font-size:.9rem}
+    nav strong{display:block;margin-bottom:1rem;font-size:1rem}
+    nav a{display:block;padding:.35rem .6rem;color:#374151;border-radius:6px;text-decoration:none;margin-bottom:2px}
+    nav a:hover{background:#e5e7eb}
+    main{padding:2rem}a{color:#6366f1}
+    h1{font-size:2rem;margin-bottom:1rem}h2{margin:2rem 0 .5rem}p{line-height:1.7;margin-bottom:1rem}
+  </style>
+</head>
+<body>
+  <nav>
+    <strong>${repoName}</strong>
+    <a href="index.html">← Home</a>
+    <a href="#getting-started">Getting Started</a>
+    <a href="#api">API Reference</a>
+  </nav>
+  <main>
+    <h1>Documentation</h1>
+    <section id="getting-started"><h2>Getting Started</h2><p>Step-by-step instructions go here.</p></section>
+    <section id="api"><h2>API Reference</h2><p>API documentation goes here.</p></section>
+  </main>
+</body>
+</html>`,
+    };
+    return T[template] || T.blank;
   }
 
   constructor() {
@@ -490,6 +659,14 @@ class GitpubApp {
         ).join('')}
       </div>`).join('');
 
+    const goLiveBtn = repo.has_pages
+      ? `<a href="${pagesUrl}" target="_blank" rel="noopener" class="btn-go-live btn-go-live--on">
+           🌐 View Your Live Site →
+         </a>`
+      : `<button class="btn-go-live btn-go-live--off btn-enable-pages" data-repo="${repo.name}">
+           🚀 Go Live! — Publish This Site
+         </button>`;
+
     return `
     <article class="repo-card" data-repo="${repo.name}">
       <div class="card-header">
@@ -510,11 +687,9 @@ class GitpubApp {
         <span class="meta-item">🍴 ${repo.forks_count}</span>
         <span class="meta-item" title="Last updated">🕐 ${updated}</span>
       </div>
+      <div class="card-live">${goLiveBtn}</div>
       <div class="card-actions">
-        ${repo.has_pages
-          ? `<a href="${pagesUrl}" target="_blank" rel="noopener" class="btn-open">🌐 Open Site</a>`
-          : `<button class="btn btn-success btn-sm btn-enable-pages" data-repo="${repo.name}">🚀 Enable Pages</button>`}
-        <a href="${repo.html_url}" target="_blank" rel="noopener" class="btn btn-secondary btn-sm">GitHub ↗</a>
+        <a href="${repo.html_url}" target="_blank" rel="noopener" class="btn btn-secondary btn-sm">View on GitHub ↗</a>
       </div>
       <div class="emoji-toolbar">${toolbarHTML}</div>
     </article>`;
@@ -522,19 +697,14 @@ class GitpubApp {
 
   /* ── Modal ──────────────────────────────────────────────── */
   openModal(actionId, repoName) {
-    // Find emoji and title from EMOJI_ROWS
-    let emoji = '⚙️', title = actionId;
-    for (const row of EMOJI_ROWS) {
-      const found = row.buttons.find(b => b[1] === actionId);
-      if (found) { emoji = found[0]; title = found[2]; break; }
-    }
-
     const content = MODAL_CONTENT[actionId];
     if (!content) return;
 
     const overlay = document.getElementById('modalOverlay');
     const box     = document.getElementById('modalBox');
     if (!overlay || !box) return;
+
+    const isAddPages = actionId === 'addPages';
 
     box.innerHTML = `
       <div class="modal-header">
@@ -550,11 +720,18 @@ class GitpubApp {
       <div class="modal-body">
         <div class="modal-desc">${content.desc}</div>
         ${content.form}
-        <p class="modal-section-title">Preview</p>
-        <pre class="modal-preview" id="modalPreview">${content.preview}</pre>
+        ${isAddPages
+          ? `<p class="modal-section-title">What it will look like</p>
+             <iframe id="modalIframePreview" class="modal-iframe-preview"
+               sandbox="allow-same-origin" title="Page preview"
+               srcdoc="<html><body style='font-family:system-ui,sans-serif;display:flex;align-items:center;justify-content:center;height:90vh;color:#666;text-align:center'><p style='font-size:1.1rem'>Type a page name above<br>to see a preview here ✨</p></body></html>">
+             </iframe>`
+          : `<p class="modal-section-title">What will happen</p>
+             <div class="modal-preview" id="modalPreview">${content.preview}</div>`
+        }
       </div>
       <div class="modal-footer">
-        <button class="btn btn-secondary" id="modalPreviewBtn">👁️ Preview Changes</button>
+        <button class="btn btn-secondary" id="modalPreviewBtn">👁️ Preview</button>
         <button class="btn btn-success" id="modalApplyBtn">✅ Apply &amp; Commit</button>
       </div>`;
 
@@ -581,9 +758,9 @@ class GitpubApp {
       if (pre) {
         if (mem) {
           const parsed = JSON.parse(mem);
-          pre.textContent = `// From: ${parsed.repo} → ${parsed.path}\n// Pulled: ${parsed.ts}\n\n${parsed.content.slice(0, 400)}${parsed.content.length > 400 ? '\n...' : ''}`;
+          pre.textContent = `From: ${parsed.repo} → ${parsed.path}\nCopied: ${parsed.ts}\n\n${parsed.content.slice(0, 400)}${parsed.content.length > 400 ? '\n...' : ''}`;
         } else {
-          pre.textContent = '// No memory stored yet — use 🧲 Pull Memory first';
+          pre.textContent = 'Nothing copied yet — use 📋 Copy From Another Site first';
         }
       }
     }
@@ -603,7 +780,7 @@ class GitpubApp {
     // Wire preview button
     box.querySelector('#modalPreviewBtn').addEventListener('click', () => {
       refreshPreview();
-      this.showToast('👁️ Preview updated', 'info');
+      if (!isAddPages) this.showToast('👁️ Preview updated', 'info');
     });
 
     // Wire apply
@@ -617,6 +794,92 @@ class GitpubApp {
         refreshPreview();
       });
     });
+
+    // AI suggestions for addPages
+    if (isAddPages) {
+      const repo = this.repos.find(r => r.name === repoName);
+      this._loadPageSuggestions(box, repo, repoName, refreshPreview);
+    }
+  }
+
+  /* ── AI page suggestions ────────────────────────────────── */
+  _getSuggestionsForRepo(repo) {
+    const name     = (repo?.name || '').toLowerCase();
+    const desc     = (repo?.description || '').toLowerCase();
+    const combined = name + ' ' + desc;
+    const suggestions = [];
+
+    if (/portfolio|personal|me|myself|cv|resume|folio/.test(combined)) {
+      suggestions.push(
+        { pageName: 'about',    template: 'blank',   reason: 'Tell visitors about yourself' },
+        { pageName: 'projects', template: 'gallery',  reason: 'Showcase your work' },
+        { pageName: 'contact',  template: 'contact',  reason: 'Let people reach you' }
+      );
+    } else if (/blog|post|article|write|journal|news/.test(combined)) {
+      suggestions.push(
+        { pageName: 'about',   template: 'blank',  reason: 'About this blog' },
+        { pageName: 'post',    template: 'blog',   reason: 'Write your first post' },
+        { pageName: 'contact', template: 'contact', reason: 'Contact page' }
+      );
+    } else if (/shop|store|marketplace|sell|product|ecommerce/.test(combined)) {
+      suggestions.push(
+        { pageName: 'products', template: 'gallery',  reason: 'Show your products' },
+        { pageName: 'pricing',  template: 'pricing',  reason: 'Your pricing plans' },
+        { pageName: 'contact',  template: 'contact',  reason: 'Order & contact' }
+      );
+    } else if (/docs|documentation|api|library|framework|tool/.test(combined)) {
+      suggestions.push(
+        { pageName: 'docs',           template: 'docs',  reason: 'Full documentation' },
+        { pageName: 'getting-started',template: 'docs',  reason: 'Quick-start guide' },
+        { pageName: 'changelog',      template: 'blog',  reason: 'Version history' }
+      );
+    } else {
+      suggestions.push(
+        { pageName: 'about',   template: 'blank',   reason: 'About this project' },
+        { pageName: 'gallery', template: 'gallery', reason: 'Photo / portfolio gallery' },
+        { pageName: 'contact', template: 'contact', reason: 'Contact page' }
+      );
+    }
+    return suggestions.slice(0, 4);
+  }
+
+  _loadPageSuggestions(box, repo, repoName, refreshPreview) {
+    const suggestionsEl = box.querySelector('#pageSuggestions');
+    if (!suggestionsEl) return;
+
+    const suggestions = this._getSuggestionsForRepo(repo);
+    const render = (heading) => {
+      suggestionsEl.innerHTML = `
+        <p class="modal-section-title">${heading}</p>
+        <div class="ai-chip-row">
+          ${suggestions.map(s =>
+            `<button class="ai-chip" data-page="${s.pageName}" data-template="${s.template}" title="${s.reason}">
+               ➕ ${s.pageName}
+             </button>`
+          ).join('')}
+        </div>`;
+      suggestionsEl.querySelectorAll('.ai-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+          const nameInput  = box.querySelector('#newPageName');
+          const templateSel = box.querySelector('#newPageTemplate');
+          if (nameInput)    nameInput.value    = chip.dataset.page;
+          if (templateSel)  templateSel.value  = chip.dataset.template;
+          refreshPreview();
+        });
+      });
+    };
+
+    render(`💡 Suggested pages for <em>${repoName}</em>:`);
+
+    // Async: check if index.html exists to refine the heading
+    if (this.token) {
+      this._ghFetch(repoName, 'index.html').then(file => {
+        render(file
+          ? `💡 Your homepage exists! Great pages to add next:`
+          : `💡 No homepage yet — start with one of these:`
+        );
+      }).catch(() => {});
+    }
   }
 
   /* ── Truncate a string with ellipsis ────────────────────── */
@@ -659,41 +922,78 @@ class GitpubApp {
 
   /* ── Regenerate preview from current form state ──────────── */
   _refreshPreview(box, content, repoName) {
+    const actionId = this.activeModal?.actionId;
+
+    // addPages: render live iframe of the selected template
+    if (actionId === 'addPages') {
+      const rawName  = box.querySelector('#newPageName')?.value.trim().toLowerCase().replace(/\s+/g, '-') || '';
+      const template = box.querySelector('#newPageTemplate')?.value || 'blank';
+      const addNav   = box.querySelector('#addToNav')?.checked ?? true;
+      const iframe   = document.getElementById('modalIframePreview');
+      if (!iframe) return;
+
+      if (!rawName) {
+        iframe.srcdoc = `<html><body style="font-family:system-ui,sans-serif;display:flex;align-items:center;justify-content:center;height:90vh;color:#666;text-align:center"><p style="font-size:1.1rem">Type a page name above<br>to see a preview here ✨</p></body></html>`;
+        return;
+      }
+      const templateHTML = GitpubApp._getPageTemplate(template, rawName, repoName);
+      iframe.srcdoc = templateHTML;
+      return;
+    }
+
+    // All other tools: human-readable plain English summary
     const pre = document.getElementById('modalPreview');
     if (!pre) return;
 
     const st = this._collectFormState(box);
-    const lines = [
-      `// ${content.emoji}  ${content.title}`,
-      `// Repo: ${repoName}`,
-      `// ─────────────────────────────────────`,
-    ];
+    let summary = '';
 
-    Object.entries(st.radios).forEach(([, val]) => {
-      lines.push(`// ◉ ${val}`);
-    });
-
-    st.selects.forEach(({ value }) => {
-      lines.push(`// ▸ ${value}`);
-    });
-
-    if (st.checkboxes.length) {
-      lines.push(`// Enabled (${st.checkboxes.length}):`);
-      st.checkboxes.forEach(c => lines.push(`//   ✓ ${c}`));
+    switch (actionId) {
+      case 'moveUpDown': {
+        const section = box.querySelector('#moveSection')?.value || 'section';
+        const dir = box.querySelector('input[name="dir"]:checked')?.value || 'up';
+        const dirLabel = { up: 'up', down: 'down', top: 'to the very top', bottom: 'to the very bottom' }[dir] || dir;
+        summary = `Will move the "${section}" section ${dirLabel} on your homepage, then save.`;
+        break;
+      }
+      case 'quickFix': {
+        const fixes = st.checkboxes.map(c => c.trim());
+        summary = fixes.length
+          ? `Will fix ${fixes.length} thing${fixes.length > 1 ? 's' : ''} on your homepage:\n${fixes.map(f => '  ✓ ' + f).join('\n')}`
+          : 'Select at least one fix above.';
+        break;
+      }
+      case 'styles': {
+        const theme = box.querySelector('input[name="bgTheme"]:checked')?.value || 'dark';
+        const font  = box.querySelector('#styleFont')?.options[box.querySelector('#styleFont')?.selectedIndex]?.text || 'Inter';
+        const color = box.querySelector('.color-swatch.active')?.title || 'Indigo';
+        summary = `Will apply a ${theme} background with ${color} colour and ${font} font to your website.\nA theme.css file will be saved to your repo.`;
+        break;
+      }
+      case 'pullMemory': {
+        const src  = box.querySelector('#pullMemoryRepo')?.value || '(no site selected)';
+        const file = box.querySelector('input[name="pullFile"]:checked')?.value || 'index.html';
+        summary = `Will copy ${file} from your "${src}" site.\nAfter this, use 📥 Paste In to drop it into another site.`;
+        break;
+      }
+      case 'dropContent': {
+        const loc = box.querySelector('input[name="dropLoc"]:checked')?.value || 'bottom';
+        const locLabel = { bottom: 'at the end', top: 'at the top', replace: 'replacing the whole page' }[loc] || loc;
+        summary = `Will paste the copied content ${locLabel} of your homepage, then save.`;
+        break;
+      }
+      case 'toolbox': {
+        const files = st.checkboxes.map(c => c.trim());
+        summary = files.length
+          ? `Will create ${files.length} file${files.length > 1 ? 's' : ''} for your website:\n${files.map(f => '  ✓ ' + f).join('\n')}`
+          : 'Select at least one item above.';
+        break;
+      }
+      default:
+        summary = content.preview || 'Ready to apply changes.';
     }
 
-    if (st.texts.length) {
-      lines.push(`// Input: "${this._truncate(st.texts[0])}"`);
-    }
-
-    if (st.swatches) {
-      lines.push(`// Color: ${st.swatches}`);
-    }
-
-    lines.push(`// ─────────────────────────────────────`);
-    lines.push(`// ✅ Ready to commit · files: index.html`);
-
-    pre.textContent = lines.join('\n');
+    pre.textContent = summary;
     pre.style.color = '';
   }
 
@@ -776,25 +1076,20 @@ class GitpubApp {
       if (filteredRepo) filteredRepo.has_pages = true;
       const card = document.querySelector(`.repo-card[data-repo="${repoName}"]`);
       if (card) {
-        const actions = card.querySelector('.card-actions');
-        if (actions) {
+        const liveArea = card.querySelector('.card-live');
+        if (liveArea) {
           const pagesUrl = repoName === `${this.username}.github.io`
             ? `https://${this.username}.github.io/`
             : `https://${this.username}.github.io/${repoName}/`;
-          actions.querySelector('.btn-enable-pages')?.replaceWith(
-            Object.assign(document.createElement('a'), {
-              href: pagesUrl, target: '_blank', rel: 'noopener',
-              className: 'btn-open', textContent: '🌐 Open Site'
-            })
-          );
+          liveArea.innerHTML = `<a href="${pagesUrl}" target="_blank" rel="noopener" class="btn-go-live btn-go-live--on">🌐 View Your Live Site →</a>`;
         }
       }
       this._updateStats();
-      this.showToast(`🚀 GitHub Pages enabled for ${repoName}!`, 'success');
+      this.showToast(`🚀 GitHub Pages enabled for ${repoName}! Your site will be live in a moment.`, 'success');
     } catch (err) {
       this.showToast(`❌ ${err.message}`, 'error');
       btn.disabled = false;
-      btn.textContent = '🚀 Enable Pages';
+      btn.textContent = '🚀 Go Live! — Publish This Site';
     }
   }
 
@@ -824,18 +1119,9 @@ class GitpubApp {
     const template  = box.querySelector('#newPageTemplate')?.value || 'blank';
     const addNav    = box.querySelector('#addToNav')?.checked ?? true;
 
-    const TEMPLATES = {
-      blank:    `<!DOCTYPE html>\n<html lang="en">\n<head>\n  <meta charset="UTF-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n  <title>${rawName} — ${repoName}</title>\n</head>\n<body>\n  <header><a href="index.html">← Home</a></header>\n  <main>\n    <h1>${rawName}</h1>\n    <p>Page content goes here.</p>\n  </main>\n</body>\n</html>`,
-      blog:     `<!DOCTYPE html>\n<html lang="en">\n<head>\n  <meta charset="UTF-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n  <title>${rawName} — ${repoName}</title>\n</head>\n<body>\n  <header><a href="index.html">← Home</a></header>\n  <main>\n    <article>\n      <h1>${rawName}</h1>\n      <time datetime="${new Date().toISOString().slice(0,10)}">${new Date().toLocaleDateString()}</time>\n      <p>Blog post content goes here.</p>\n    </article>\n  </main>\n</body>\n</html>`,
-      gallery:  `<!DOCTYPE html>\n<html lang="en">\n<head>\n  <meta charset="UTF-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n  <title>${rawName} — ${repoName}</title>\n  <style>.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem}.gallery img{width:100%;border-radius:8px}</style>\n</head>\n<body>\n  <header><a href="index.html">← Home</a></header>\n  <main>\n    <h1>${rawName}</h1>\n    <div class="gallery">\n      <img src="images/placeholder.jpg" alt="Gallery image 1">\n    </div>\n  </main>\n</body>\n</html>`,
-      contact:  `<!DOCTYPE html>\n<html lang="en">\n<head>\n  <meta charset="UTF-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n  <title>Contact — ${repoName}</title>\n</head>\n<body>\n  <header><a href="index.html">← Home</a></header>\n  <main>\n    <h1>Contact</h1>\n    <form>\n      <label>Name<br><input type="text" name="name" required></label><br><br>\n      <label>Email<br><input type="email" name="email" required></label><br><br>\n      <label>Message<br><textarea name="message" rows="5"></textarea></label><br><br>\n      <button type="submit">Send</button>\n    </form>\n  </main>\n</body>\n</html>`,
-      pricing:  `<!DOCTYPE html>\n<html lang="en">\n<head>\n  <meta charset="UTF-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n  <title>Pricing — ${repoName}</title>\n  <style>.plans{display:flex;gap:1rem;flex-wrap:wrap}.plan{border:1px solid #ccc;border-radius:8px;padding:1rem;flex:1;min-width:180px}.plan h2{margin-top:0}</style>\n</head>\n<body>\n  <header><a href="index.html">← Home</a></header>\n  <main>\n    <h1>Pricing</h1>\n    <div class="plans">\n      <div class="plan"><h2>Free</h2><p>$0/mo</p><ul><li>Feature A</li></ul></div>\n      <div class="plan"><h2>Pro</h2><p>$9/mo</p><ul><li>Feature A</li><li>Feature B</li></ul></div>\n    </div>\n  </main>\n</body>\n</html>`,
-      docs:     `<!DOCTYPE html>\n<html lang="en">\n<head>\n  <meta charset="UTF-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n  <title>Docs — ${repoName}</title>\n</head>\n<body>\n  <header><a href="index.html">← Home</a></header>\n  <main>\n    <h1>Documentation</h1>\n    <nav><ul><li><a href="#getting-started">Getting Started</a></li><li><a href="#api">API Reference</a></li></ul></nav>\n    <section id="getting-started"><h2>Getting Started</h2><p>Instructions here.</p></section>\n    <section id="api"><h2>API Reference</h2><p>API docs here.</p></section>\n  </main>\n</body>\n</html>`,
-    };
-
-    const pageHTML = TEMPLATES[template] || TEMPLATES.blank;
+    const pageHTML = GitpubApp._getPageTemplate(template, rawName, repoName);
     const existing = await this._ghFetch(repoName, pageName);
-    await this._ghCommit(repoName, pageName, `📎 Add page ${pageName} (${template} template)`, pageHTML, existing?.sha || null);
+    await this._ghCommit(repoName, pageName, `➕ Add page ${pageName} (${template} template)`, pageHTML, existing?.sha || null);
 
     // Optionally patch index.html nav
     if (addNav) {
@@ -849,7 +1135,7 @@ class GitpubApp {
           } else if (idxHtml.includes('</header>')) {
             idxHtml = idxHtml.replace('</header>', `  <nav>${navLink}</nav>\n</header>`);
           }
-          await this._ghCommit(repoName, 'index.html', `📎 Add nav link for ${pageName}`, idxHtml, idx.sha);
+          await this._ghCommit(repoName, 'index.html', `➕ Add nav link for ${pageName}`, idxHtml, idx.sha);
         }
       }
     }
@@ -1022,8 +1308,12 @@ a { color: var(--accent); }
   async _applyChanges(box, toolName, repoName) {
     const applyBtn = box.querySelector('#modalApplyBtn');
     const pre      = document.getElementById('modalPreview');
-    if (applyBtn) { applyBtn.disabled = true; applyBtn.textContent = '⏳ Working…'; }
-    if (pre) { pre.textContent = `// Connecting to GitHub API…\n// Repo: ${repoName}`; pre.style.color = ''; }
+    const iframe   = document.getElementById('modalIframePreview');
+    const isAddPages = this.activeModal?.actionId === 'addPages';
+
+    if (applyBtn) { applyBtn.disabled = true; applyBtn.textContent = '⏳ Saving…'; }
+    if (pre)    { pre.textContent = `Connecting to GitHub…`; pre.style.color = ''; }
+    if (iframe) { iframe.srcdoc = `<html><body style="font-family:system-ui;display:flex;align-items:center;justify-content:center;height:90vh;color:#666;text-align:center"><p style="font-size:1.1rem">⏳ Saving to GitHub…</p></body></html>`; }
 
     const actionId = this.activeModal?.actionId;
     try {
@@ -1037,20 +1327,27 @@ a { color: var(--accent); }
       else if (actionId === 'toolbox')      result = await this._toolToolbox(box, repoName);
       else throw new Error(`No handler for ${actionId}`);
 
-      // Show real result in preview
-      if (pre) {
-        const lines = [`// ✅ Done — ${toolName}`, `// Repo: ${repoName}`];
-        if (result?.commit?.sha)       lines.push(`// SHA: ${result.commit.sha.slice(0, 8)}`);
-        if (result?.pulled)            lines.push(`// Pulled ${result.length} chars from ${result.repo}/${result.path}`, `// Use 🟦 Drop Content to insert`);
-        if (result?.committed?.length) lines.push(`// Files committed: ${result.committed.join(', ')}`);
-        if (result?.pageName)          lines.push(`// Created: ${result.pageName}`);
-        pre.textContent = lines.join('\n');
+      // Show human-readable success
+      if (isAddPages && iframe) {
+        const pageName = result?.pageName || 'new-page.html';
+        iframe.srcdoc = `<html><body style="font-family:system-ui;display:flex;align-items:center;justify-content:center;height:90vh;background:#f0fff4;color:#166534;text-align:center"><p style="font-size:1.2rem;padding:2rem">✅ <strong>${pageName}</strong> was added to your site!<br><br><small style="color:#4b7059">It may take a moment to appear live.</small></p></body></html>`;
+      } else if (pre) {
+        let msg = `✅ Done! ${toolName} applied to "${repoName}".`;
+        if (result?.pulled)            msg += `\n\nCopied ${result.length} characters from ${result.repo}/${result.path}.\nNow use 📥 Paste In on another site to insert it.`;
+        if (result?.committed?.length) msg += `\n\nFiles saved: ${result.committed.join(', ')}`;
+        if (result?.pageName)          msg += `\n\nNew page created: ${result.pageName}`;
+        pre.textContent = msg;
         pre.style.color = 'var(--gitpub-accent2)';
       }
-      this.showToast(`✅ ${toolName} — done!`, 'success');
-      setTimeout(() => this.closeModal(), 1500);
+      this.showToast(`✅ ${toolName} — saved!`, 'success');
+      setTimeout(() => this.closeModal(), 2000);
     } catch (err) {
-      if (pre) { pre.textContent = `// ❌ Error: ${err.message}`; pre.style.color = '#ef4444'; }
+      if (isAddPages && iframe) {
+        iframe.srcdoc = `<html><body style="font-family:system-ui;display:flex;align-items:center;justify-content:center;height:90vh;background:#fff5f5;color:#9b1c1c;text-align:center;padding:2rem"><p>❌ <strong>Error:</strong><br>${err.message}</p></body></html>`;
+      } else if (pre) {
+        pre.textContent = `❌ Error: ${err.message}`;
+        pre.style.color = '#ef4444';
+      }
       this.showToast(`❌ ${err.message}`, 'error');
       if (applyBtn) { applyBtn.disabled = false; applyBtn.textContent = '✅ Apply & Commit'; }
     }
@@ -1076,16 +1373,18 @@ a { color: var(--accent); }
   /* ── Gitpal Chat ────────────────────────────────────────── */
   _initChat() {
     const responses = [
-      "Great question! GitHub Pages works best when your repo has an `index.html` at the root or a `docs/` folder. Make sure Pages is enabled in Settings → Pages.",
-      "To boost SEO on your GitHub Pages site, add `<meta name=\"description\">`, Open Graph tags, and a `sitemap.xml`. The 🔧 Quick Fix and 🧰 Toolbox tools can help automate this!",
-      "For a PWA, you need a `manifest.json`, a service worker (`sw.js`), and HTTPS — which GitHub Pages provides by default. Use the 🧰 Toolbox to generate these files.",
-      "Stars and forks signal popularity to search engines and other developers. Use ⭐ Update Content to keep your repo's content fresh and attract more attention.",
-      "The 🧲 Pull Memory → 🟦 Drop Content workflow lets you reuse content across repos without copy-pasting. Great for maintaining consistent headers and footers!",
-      "Want to monetise? The 💰 Banking tool helps integrate PayPal buttons. For token-based systems, check out 💲 PayPal/Payments and 🟡 Token Walker.",
-      "I recommend using semantic HTML5 elements (`<header>`, `<main>`, `<section>`, `<article>`) in your GitHub Pages sites — it improves SEO and accessibility scores significantly.",
-      "To connect your repos into a network, use ✨ Connect Repos. You can share navigation, styles, and signals across multiple GitHub Pages sites.",
+      "GitHub Pages works best when your repo has an <code>index.html</code> file at the root. Click \"🚀 Go Live!\" on a card to enable Pages, then use ➕ Add Page to build it out.",
+      "To get found on Google, add a description to your site, use the ⚙️ Site Tools to create a sitemap, and make sure every page has a clear title.",
+      "To make your site work like an app on phones, use ⚙️ Site Tools → App manifest. GitHub Pages provides HTTPS automatically, so you're already halfway there!",
+      "Use 📋 Copy From Another Site to grab content from one of your sites, then use 📥 Paste In on another site to drop it in. Great for reusing headers, footers, or whole layouts!",
+      "Use 🎨 Change Site Colours to set a colour scheme across your whole site. Pick a colour, choose Dark or Light, and hit Apply — a theme file gets saved to your repo.",
+      "I recommend using clear page names like 'about', 'contact', 'services', 'gallery' — these are easy for visitors to find and remember.",
+      "The ➕ Add Page button is your best friend! Click it on any repo card, pick a page style, and I'll suggest what makes sense for your site.",
+      "Tip: If your site looks broken on phones, click 🩹 Fix It on the card — it auto-fixes the most common mobile issues.",
     ];
     let msgCount = 0;
+
+    const GP_SVG = `<svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" width="16" height="16"><polygon points="28,22 23,8 34,18" fill="#c084fc"/><polygon points="52,22 57,8 46,18" fill="#c084fc"/><circle cx="40" cy="32" r="18" fill="#a855f7"/><circle cx="33" cy="29" r="5" fill="white"/><circle cx="47" cy="29" r="5" fill="white"/><circle cx="33" cy="30" r="2.5" fill="#4c1d95"/><circle cx="47" cy="30" r="2.5" fill="#4c1d95"/><path d="M34,39 Q40,44 46,39" stroke="#6b21a8" fill="none" stroke-width="1.5" stroke-linecap="round"/><ellipse cx="40" cy="61" rx="16" ry="12" fill="#a855f7"/><text x="40" y="65" text-anchor="middle" fill="white" font-size="9" font-weight="bold" font-family="system-ui,sans-serif">GP</text><line x1="27" y1="57" x2="12" y2="48" stroke="#c084fc" stroke-width="2.5" stroke-linecap="round"/><line x1="25" y1="63" x2="8" y2="63" stroke="#c084fc" stroke-width="2.5" stroke-linecap="round"/><line x1="27" y1="69" x2="12" y2="78" stroke="#c084fc" stroke-width="2.5" stroke-linecap="round"/><line x1="53" y1="57" x2="68" y2="48" stroke="#c084fc" stroke-width="2.5" stroke-linecap="round"/><line x1="55" y1="63" x2="72" y2="63" stroke="#c084fc" stroke-width="2.5" stroke-linecap="round"/><line x1="53" y1="69" x2="68" y2="78" stroke="#c084fc" stroke-width="2.5" stroke-linecap="round"/></svg>`;
 
     const messagesEl  = document.getElementById('chatMessages');
     const inputEl     = document.getElementById('chatInput');
@@ -1097,7 +1396,7 @@ a { color: var(--accent); }
       div.className = `chat-msg ${isUser ? 'user' : 'bot'}`;
       div.innerHTML = isUser
         ? `<div class="chat-bubble">${text}</div>`
-        : `<div class="chat-bot-avatar">🤖</div><div class="chat-bubble">${text}</div>`;
+        : `<div class="chat-bot-avatar" style="overflow:hidden">${GP_SVG}</div><div class="chat-bubble">${text}</div>`;
       messagesEl.appendChild(div);
       messagesEl.scrollTop = messagesEl.scrollHeight;
     };
