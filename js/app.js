@@ -6,16 +6,9 @@
 
 'use strict';
 
-/* ── XOR obfuscation for token storage ───────────────────── */
-// NOTE: This is lightweight obfuscation only (NOT encryption).
-// The XOR key is intentionally simple — anyone with access to the browser's
-// localStorage or DevTools can trivially decode the stored token.
-// SECURITY GUIDANCE: always use short-lived fine-grained PATs with the
-// minimum required scopes (public_repo or repo) and revoke them promptly.
-// The token is also protected by HTTPS and the browser same-origin policy.
-const XOR_KEY = 42;
-const xorStr = (str) =>
-  str.split('').map(c => String.fromCharCode(c.charCodeAt(0) ^ XOR_KEY)).join('');
+/* ── Auth helpers (delegated to shared/gitpub-auth.js) ──────
+   GitpubAuth is loaded by index.html before this script.        */
+const { getGitpubAuth, setGitpubAuth, clearGitpubAuth } = window.GitpubAuth;
 
 /* ── Language colour map ─────────────────────────────────── */
 const LANG_COLORS = {
@@ -495,11 +488,10 @@ class GitpubApp {
 
   /* ── Auth ───────────────────────────────────────────────── */
   checkAuth() {
-    const rawToken = localStorage.getItem('gitpub_token');
-    const rawUser  = localStorage.getItem('gitpub_user');
-    if (rawToken && rawUser) {
-      this.token    = xorStr(atob(rawToken));
-      this.username = rawUser;
+    const auth = getGitpubAuth();
+    if (auth) {
+      this.token    = auth.token;
+      this.username = auth.username;
       this._showApp();
     } else {
       this._showAuth();
@@ -518,9 +510,8 @@ class GitpubApp {
         this.showToast('Please fill in both fields', 'error');
         return;
       }
-      // Obfuscate and store
-      localStorage.setItem('gitpub_token', btoa(xorStr(tokenInput)));
-      localStorage.setItem('gitpub_user',  userInput);
+      // Obfuscate and store via shared auth module
+      setGitpubAuth({ username: userInput, token: tokenInput });
       this.token    = tokenInput;
       this.username = userInput;
       this._showApp();
@@ -536,8 +527,7 @@ class GitpubApp {
 
     // Settings: sign-out
     document.getElementById('signOutBtn')?.addEventListener('click', () => {
-      localStorage.removeItem('gitpub_token');
-      localStorage.removeItem('gitpub_user');
+      clearGitpubAuth();
       location.reload();
     });
 
@@ -564,7 +554,7 @@ class GitpubApp {
 
       if (res.status === 401) {
         this.showToast('Invalid token — please sign in again', 'error');
-        localStorage.removeItem('gitpub_token');
+        localStorage.removeItem(GitpubAuth.KEY_TOKEN);
         setTimeout(() => location.reload(), 1500);
         return;
       }
